@@ -1,0 +1,3052 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Design Systems: From Tokens to Components</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css"
+      id="theme"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css"
+    />
+
+    <style>
+      :root {
+        --accent: #3b82f6;
+        --accent-light: #60a5fa;
+        --surface: #1e293b;
+        --surface-light: #334155;
+        --text: #f1f5f9;
+        --text-muted: #94a3b8;
+        --green: #22c55e;
+        --red: #ef4444;
+        --orange: #f59e0b;
+      }
+
+      .reveal {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      }
+
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        text-transform: none;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .reveal h1 {
+        font-size: 2.4em;
+      }
+
+      .reveal h2 {
+        font-size: 1.6em;
+        margin-bottom: 0.6em;
+      }
+
+      .reveal h3 {
+        font-size: 0.9em;
+        color: var(--accent-light);
+        font-weight: 600;
+      }
+
+      .reveal p,
+      .reveal li {
+        font-size: 0.75em;
+        line-height: 1.6;
+        color: var(--text);
+      }
+
+      .reveal .subtitle {
+        font-size: 0.55em;
+        color: var(--text-muted);
+        font-weight: 400;
+        margin-top: 0.3em;
+      }
+
+      /* Accent color for headings */
+      .reveal h2 .accent {
+        color: var(--accent-light);
+      }
+
+      /* Styled list */
+      .reveal .styled-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .reveal .styled-list li {
+        padding: 0.3em 0;
+        padding-left: 1.6em;
+        position: relative;
+      }
+
+      .reveal .styled-list li::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.65em;
+        width: 8px;
+        height: 8px;
+        border-radius: 2px;
+        background: var(--accent);
+      }
+
+      /* Numbered agenda list */
+      .agenda-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        counter-reset: agenda;
+      }
+
+      .agenda-list li {
+        counter-increment: agenda;
+        display: flex;
+        align-items: baseline;
+        gap: 0.8em;
+        padding: 0.25em 0;
+        font-size: 0.6em !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .agenda-list li::before {
+        content: counter(agenda);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 1.6em;
+        height: 1.6em;
+        background: var(--accent);
+        color: #fff;
+        border-radius: 50%;
+        font-size: 0.75em;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+
+      .agenda-list .topic {
+        flex: 1;
+      }
+
+      .agenda-list .time {
+        color: var(--text-muted);
+        font-size: 0.85em;
+        white-space: nowrap;
+      }
+
+      .agenda-list .stretch {
+        color: var(--orange);
+        font-size: 0.75em;
+        font-weight: 600;
+      }
+
+      /* Checklist */
+      .reveal .checklist {
+        list-style: none !important;
+        padding: 0;
+      }
+
+      .reveal .checklist li {
+        padding: 0.4em 0;
+        padding-left: 2em;
+        position: relative;
+        font-size: 0.7em !important;
+        list-style: none !important;
+      }
+
+      .checklist li::before {
+        content: '\2713';
+        position: absolute;
+        left: 0;
+        top: 0.35em;
+        width: 1.4em;
+        height: 1.4em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--green);
+        color: #fff;
+        border-radius: 4px;
+        font-size: 0.8em;
+        font-weight: 700;
+      }
+
+      .checklist li .hint {
+        display: block;
+        color: var(--text-muted);
+        font-size: 0.85em;
+        font-family: 'Fira Code', 'Cascadia Code', monospace;
+        margin-top: 0.15em;
+      }
+
+      /* Code block styling */
+      .reveal pre {
+        width: 100%;
+        font-size: 0.55em;
+        box-shadow: none;
+        margin: 0.6em 0;
+      }
+
+      .reveal pre code {
+        padding: 1em 1.2em;
+        border-radius: 8px;
+        background: var(--surface);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        max-height: 500px;
+      }
+
+      /* Inline code */
+      .reveal code:not([class]) {
+        background: var(--surface);
+        padding: 0.15em 0.4em;
+        border-radius: 4px;
+        font-size: 0.9em;
+        color: var(--accent-light);
+      }
+
+      /* Pipeline / diagram boxes */
+      .pipeline {
+        display: flex;
+        align-items: stretch;
+        gap: 0;
+        justify-content: center;
+        margin: 1em 0;
+      }
+
+      .pipeline-step {
+        background: var(--surface);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 0.8em 1em;
+        text-align: center;
+        flex: 1;
+        max-width: 180px;
+        position: relative;
+      }
+
+      .pipeline-step h4 {
+        font-size: 0.55em;
+        color: var(--accent-light);
+        margin: 0 0 0.4em;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 700;
+      }
+
+      .pipeline-step ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .pipeline-step li {
+        font-size: 0.5em !important;
+        color: var(--text-muted);
+        padding: 0.1em 0;
+      }
+
+      .pipeline-arrow {
+        display: flex;
+        align-items: center;
+        font-size: 1.2em;
+        color: var(--accent);
+        padding: 0 0.3em;
+      }
+
+      /* Subtitle label under pipeline */
+      .pipeline-label {
+        display: flex;
+        justify-content: center;
+        gap: 0;
+        margin-top: 0.3em;
+      }
+
+      .pipeline-label span {
+        flex: 1;
+        max-width: 180px;
+        text-align: center;
+        font-size: 0.4em;
+        color: var(--text-muted);
+      }
+
+      .pipeline-label .arrow-spacer {
+        padding: 0 0.3em;
+        width: 1.2em;
+      }
+
+      /* Not / Is cards */
+      .comparison {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1em;
+        margin: 0.8em 0;
+      }
+
+      .comparison-card {
+        background: var(--surface);
+        border-radius: 8px;
+        padding: 1em;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .comparison-card h4 {
+        font-size: 0.6em;
+        margin: 0 0 0.5em;
+        font-weight: 700;
+      }
+
+      .comparison-card.negative h4 {
+        color: var(--red);
+      }
+
+      .comparison-card.positive h4 {
+        color: var(--green);
+      }
+
+      .comparison-card ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .comparison-card li {
+        font-size: 0.55em !important;
+        padding: 0.25em 0;
+        padding-left: 1.4em;
+        position: relative;
+      }
+
+      .comparison-card.negative li::before {
+        content: '\2717';
+        position: absolute;
+        left: 0;
+        color: var(--red);
+        font-weight: 700;
+      }
+
+      .comparison-card.positive li::before {
+        content: '\2713';
+        position: absolute;
+        left: 0;
+        color: var(--green);
+        font-weight: 700;
+      }
+
+      /* Benefit cards */
+      .benefits {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 0.8em;
+        margin: 0.8em 0;
+      }
+
+      .benefit-card {
+        background: var(--surface);
+        border-radius: 8px;
+        padding: 1em;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        text-align: center;
+      }
+
+      .benefit-card .number {
+        font-size: 1.6em;
+        font-weight: 800;
+        color: var(--accent-light);
+        line-height: 1;
+        margin-bottom: 0.2em;
+      }
+
+      .benefit-card h4 {
+        font-size: 0.6em;
+        font-weight: 700;
+        margin: 0.3em 0;
+        color: var(--text);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .benefit-card p {
+        font-size: 0.48em !important;
+        color: var(--text-muted);
+        margin: 0;
+      }
+
+      /* Scope list (what we will / won't do) */
+      .reveal .scope-list {
+        list-style: none !important;
+        padding: 0;
+        margin: 0;
+      }
+
+      .reveal .scope-list li {
+        padding: 0.2em 0;
+        padding-left: 1.6em;
+        position: relative;
+        font-size: 0.55em !important;
+        list-style: none !important;
+      }
+
+      .scope-list.included li::before {
+        content: '\2713';
+        position: absolute;
+        left: 0;
+        color: var(--green);
+        font-weight: 700;
+        font-size: 1em;
+      }
+
+      .scope-list.excluded li::before {
+        content: '\2013';
+        position: absolute;
+        left: 0.2em;
+        color: var(--text-muted);
+        font-weight: 400;
+      }
+
+      .scope-list li .stretch-badge {
+        display: inline-block;
+        background: rgba(245, 158, 11, 0.15);
+        color: var(--orange);
+        font-size: 0.7em;
+        padding: 0.1em 0.5em;
+        border-radius: 100px;
+        font-weight: 600;
+        margin-left: 0.5em;
+        vertical-align: middle;
+      }
+
+      /* CSS layer diagram */
+      .layer-diagram {
+        text-align: center;
+        font-size: 0.6em;
+        color: var(--text-muted);
+        margin-top: 0.5em;
+      }
+
+      /* Title slide specific */
+      .title-slide h1 {
+        background: linear-gradient(135deg, var(--accent-light), #a78bfa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Exercise label */
+      .exercise-label {
+        display: inline-block;
+        background: var(--green);
+        color: #fff;
+        font-size: 0.45em;
+        padding: 0.2em 0.8em;
+        border-radius: 100px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin-bottom: 0.3em;
+      }
+
+      /* Two column layout */
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5em;
+        text-align: left;
+      }
+
+      /* Fragment highlight */
+      .reveal .slides section .fragment.highlight-current-blue.current-fragment {
+        color: var(--accent-light);
+      }
+
+      /* Quote block */
+      .quote-block {
+        background: var(--surface);
+        border-left: 4px solid var(--accent);
+        padding: 0.6em 1em;
+        border-radius: 0 8px 8px 0;
+        margin: 0.6em 0;
+        font-size: 0.6em;
+        color: var(--text);
+        font-style: italic;
+      }
+
+      /* Dependency tree */
+      .dep-tree {
+        font-family: 'Fira Code', 'Cascadia Code', monospace;
+        font-size: 0.38em;
+        color: var(--text-muted);
+        text-align: left;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.6;
+        white-space: nowrap;
+      }
+
+      .dep-tree .highlight {
+        color: var(--accent-light);
+        font-weight: 600;
+      }
+
+      /* Wireframe mockup */
+      .wireframe {
+        background: var(--surface);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+        padding: 0.6em 1em;
+        font-family: 'Fira Code', 'Cascadia Code', monospace;
+        font-size: 0.32em;
+        color: var(--text-muted);
+        text-align: left;
+        max-width: 700px;
+        margin: 0.3em auto;
+        line-height: 1.4;
+        white-space: nowrap;
+      }
+
+      .wireframe .wf-highlight {
+        color: var(--accent-light);
+        font-weight: 600;
+      }
+
+      .wireframe .wf-component {
+        color: var(--green);
+        font-weight: 600;
+      }
+
+      /* Stretch label */
+      .stretch-label {
+        display: inline-block;
+        background: rgba(245, 158, 11, 0.15);
+        color: var(--orange);
+        font-size: 0.45em;
+        padding: 0.2em 0.8em;
+        border-radius: 100px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin-bottom: 0.8em;
+      }
+
+      /* Button demo visual */
+      .btn-demo-grid {
+        display: grid;
+        grid-template-columns: auto 1fr 1fr 1fr;
+        gap: 0.6em 1em;
+        align-items: center;
+        font-size: 0.5em;
+        margin: 0.5em auto;
+        max-width: 650px;
+      }
+
+      .btn-demo-grid .row-label {
+        color: var(--text-muted);
+        font-size: 0.85em;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .btn-demo-grid .col-label {
+        color: var(--accent-light);
+        font-weight: 700;
+        text-align: center;
+        font-size: 0.85em;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .btn-demo {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 16px;
+        border-radius: 4px;
+        font-size: 0.9em;
+        font-weight: 500;
+        cursor: default;
+        transition: none;
+      }
+
+      .btn-demo.primary { background: #2563eb; color: #fff; border: 1px solid #2563eb; }
+      .btn-demo.primary.hover { background: #1d4ed8; border-color: #1d4ed8; }
+      .btn-demo.primary.disabled { background: #2563eb; border-color: #2563eb; opacity: 0.4; }
+
+      .btn-demo.secondary { background: transparent; color: #e2e8f0; border: 1px solid #64748b; }
+      .btn-demo.secondary.hover { background: rgba(100,116,139,0.15); }
+      .btn-demo.secondary.disabled { opacity: 0.4; border-style: dashed; }
+
+      .btn-demo.tertiary { background: #334155; color: #e2e8f0; border: 1px solid transparent; }
+      .btn-demo.tertiary.hover { background: #475569; }
+      .btn-demo.tertiary.disabled { opacity: 0.4; }
+
+      /* Button size demo */
+      .btn-size-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5em;
+        margin: 0.8em 0;
+      }
+
+      .btn-size-item {
+        text-align: center;
+      }
+
+      .btn-size-item .label {
+        font-size: 0.4em;
+        color: var(--text-muted);
+        margin-top: 0.5em;
+      }
+
+      .btn-size-item .btn-demo.sm { padding: 4px 8px; font-size: 0.7em; }
+      .btn-size-item .btn-demo.md { padding: 8px 16px; font-size: 0.8em; }
+      .btn-size-item .btn-demo.lg { padding: 10px 24px; font-size: 0.95em; }
+
+      /* Card demo visual */
+      .card-demo-row {
+        display: flex;
+        gap: 1.5em;
+        justify-content: center;
+        margin: 0.6em 0;
+      }
+
+      .card-demo {
+        width: 220px;
+        border-radius: 8px;
+        padding: 0.8em 1em;
+        text-align: left;
+        font-size: 0.5em;
+      }
+
+      .card-demo.elevated {
+        background: var(--surface-light);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      }
+
+      .card-demo.outlined {
+        background: transparent;
+        border: 1px solid rgba(255,255,255,0.2);
+      }
+
+      .card-demo .cd-title {
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 0.3em;
+      }
+
+      .card-demo .cd-content {
+        color: var(--text-muted);
+        font-size: 0.9em;
+        margin-bottom: 0.5em;
+      }
+
+      .card-demo .cd-footer {
+        color: var(--accent-light);
+        font-size: 0.85em;
+        font-weight: 600;
+      }
+
+      /* Card anatomy */
+      .card-anatomy {
+        background: var(--surface);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 8px;
+        max-width: 350px;
+        margin: 0.6em auto;
+        overflow: hidden;
+        font-size: 0.5em;
+      }
+
+      .card-anatomy > div {
+        padding: 0.6em 1em;
+        border-bottom: 1px dashed rgba(255,255,255,0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .card-anatomy > div:last-child { border-bottom: none; }
+
+      .card-anatomy .ca-label {
+        color: var(--accent-light);
+        font-family: 'Fira Code', 'Cascadia Code', monospace;
+        font-size: 0.85em;
+      }
+
+      .card-anatomy .ca-desc {
+        color: var(--text-muted);
+        font-size: 0.85em;
+      }
+
+      /* Selector list for exercises */
+      .selector-list {
+        text-align: left;
+        max-width: 600px;
+        margin: 0.2em auto;
+      }
+
+      .selector-list .sel-group {
+        margin-bottom: 0;
+      }
+
+      .selector-list .sel-name {
+        font-family: 'Fira Code', 'Cascadia Code', monospace;
+        color: var(--accent-light);
+        font-size: 0.4em;
+        font-weight: 600;
+      }
+
+      .selector-list .sel-comment {
+        color: var(--text-muted);
+        font-size: 0.32em;
+        margin-left: 0.5em;
+      }
+
+      .selector-list .sel-props {
+        font-family: 'Fira Code', 'Cascadia Code', monospace;
+        font-size: 0.32em;
+        color: var(--text-muted);
+        padding-left: 1.5em;
+        margin-top: 0.05em;
+      }
+
+      .selector-list .sel-props .hint {
+        color: var(--orange);
+      }
+
+      /* Token categories table */
+      .token-categories {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.3em 1.2em;
+        font-size: 0.55em;
+        text-align: left;
+        max-width: 750px;
+        margin: 0.5em auto;
+      }
+
+      .token-categories .tc-label {
+        color: var(--accent-light);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-size: 0.9em;
+      }
+
+      .token-categories .tc-values {
+        font-family: 'Fira Code', 'Cascadia Code', monospace;
+        color: var(--text-muted);
+        font-size: 0.85em;
+      }
+
+      /* Token hierarchy 3 columns */
+      .token-hierarchy {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 0.8em;
+        font-size: 0.45em;
+        margin: 0.5em 0;
+      }
+
+      .token-col {
+        background: var(--surface);
+        border-radius: 8px;
+        padding: 0.8em;
+        border: 1px solid rgba(255,255,255,0.08);
+      }
+
+      .token-col h4 {
+        color: var(--accent-light);
+        font-size: 0.9em;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin: 0 0 0.3em;
+        letter-spacing: 0.05em;
+      }
+
+      .token-col .tc-sub {
+        color: var(--text-muted);
+        font-size: 0.85em;
+        margin-bottom: 0.5em;
+      }
+
+      .token-col ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .token-col li {
+        font-family: 'Fira Code', 'Cascadia Code', monospace;
+        color: var(--text);
+        padding: 0.15em 0;
+        font-size: 0.9em;
+        line-height: 1.5;
+      }
+
+      .token-col li .arrow {
+        color: var(--accent);
+        margin: 0 0.3em;
+      }
+
+      /* Before/After refactor table */
+      .refactor-table {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 0.2em 0.5em;
+        font-family: 'Fira Code', 'Cascadia Code', monospace;
+        font-size: 0.42em;
+        text-align: left;
+        max-width: 700px;
+        margin: 0.4em auto;
+        align-items: center;
+      }
+
+      .refactor-table .rt-header {
+        font-family: 'Inter', system-ui, sans-serif;
+        color: var(--accent-light);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 1.1em;
+        letter-spacing: 0.05em;
+        padding-bottom: 0.3em;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+
+      .refactor-table .rt-before {
+        color: var(--red);
+      }
+
+      .refactor-table .rt-arrow {
+        color: var(--accent);
+        text-align: center;
+      }
+
+      .refactor-table .rt-after {
+        color: var(--green);
+      }
+
+      /* Token change test list */
+      .token-test-list {
+        text-align: left;
+        max-width: 600px;
+        margin: 0.5em auto;
+      }
+
+      .token-test-list .tt-item {
+        margin-bottom: 0.8em;
+      }
+
+      .token-test-list .tt-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.5em;
+        height: 1.5em;
+        background: var(--accent);
+        color: #fff;
+        border-radius: 50%;
+        font-size: 0.5em;
+        font-weight: 700;
+        margin-right: 0.4em;
+        vertical-align: middle;
+      }
+
+      .token-test-list .tt-instruction {
+        font-size: 0.55em;
+        color: var(--text);
+      }
+
+      .token-test-list .tt-code {
+        font-family: 'Fira Code', 'Cascadia Code', monospace;
+        font-size: 0.45em;
+        color: var(--accent-light);
+        padding-left: 2.5em;
+        margin-top: 0.2em;
+      }
+
+      .token-test-list .tt-result {
+        font-size: 0.45em;
+        color: var(--green);
+        padding-left: 2.5em;
+        margin-top: 0.1em;
+      }
+
+      /* Checkpoint flow */
+      .checkpoint-flow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        margin: 0.8em 0;
+        flex-wrap: wrap;
+      }
+
+      .checkpoint-flow .cf-step {
+        background: var(--surface);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 6px;
+        padding: 0.4em 0.8em;
+        text-align: center;
+        font-family: 'Fira Code', 'Cascadia Code', monospace;
+        font-size: 0.45em;
+        color: var(--text);
+      }
+
+      .checkpoint-flow .cf-arrow {
+        color: var(--accent);
+        font-size: 0.9em;
+        padding: 0 0.3em;
+      }
+
+      /* Typography scale demo */
+      .type-scale {
+        text-align: left;
+        max-width: 600px;
+        margin: 0.2em auto;
+      }
+
+      .type-scale .ts-row {
+        display: flex;
+        align-items: baseline;
+        gap: 1em;
+        padding: 0.15em 0;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      }
+
+      .type-scale .ts-label {
+        color: var(--accent-light);
+        font-weight: 700;
+        font-size: 0.45em;
+        text-transform: uppercase;
+        min-width: 60px;
+        letter-spacing: 0.05em;
+      }
+
+      .type-scale .ts-sample {
+        color: var(--text);
+        flex: 1;
+      }
+
+      .type-scale .ts-h1 { font-size: 1.1em; font-weight: 700; }
+      .type-scale .ts-h2 { font-size: 0.9em; font-weight: 600; }
+      .type-scale .ts-h3 { font-size: 0.75em; font-weight: 600; }
+      .type-scale .ts-body { font-size: 0.6em; font-weight: 400; }
+      .type-scale .ts-caption { font-size: 0.5em; font-weight: 400; color: var(--text-muted); }
+
+      .type-scale .ts-meta {
+        font-family: 'Fira Code', 'Cascadia Code', monospace;
+        font-size: 0.38em;
+        color: var(--text-muted);
+        min-width: 180px;
+        text-align: right;
+      }
+
+      /* Theme comparison */
+      .theme-comparison {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.2em;
+        margin: 0.6em 0;
+      }
+
+      .theme-preview {
+        border-radius: 8px;
+        padding: 1em;
+        font-size: 0.45em;
+      }
+
+      .theme-preview.light {
+        background: #f3f4f6;
+        color: #1f2937;
+        border: 1px solid #e5e7eb;
+      }
+
+      .theme-preview.dark {
+        background: #111827;
+        color: #f9fafb;
+        border: 1px solid #374151;
+      }
+
+      .theme-preview h4 {
+        font-size: 1.2em;
+        margin: 0 0 0.5em;
+        font-weight: 700;
+      }
+
+      .theme-preview .tp-card {
+        border-radius: 6px;
+        padding: 0.6em;
+        margin-bottom: 0.5em;
+      }
+
+      .theme-preview.light .tp-card {
+        background: #ffffff;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      }
+
+      .theme-preview.dark .tp-card {
+        background: #1f2937;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      }
+
+      .theme-preview .tp-card-title {
+        font-weight: 600;
+        margin-bottom: 0.2em;
+      }
+
+      .theme-preview .tp-card-value {
+        font-size: 1.3em;
+        font-weight: 700;
+      }
+
+      .theme-preview.light .tp-card-value { color: #2563eb; }
+      .theme-preview.dark .tp-card-value { color: #3b82f6; }
+
+      .theme-preview .tp-btn {
+        display: inline-block;
+        padding: 0.3em 0.8em;
+        border-radius: 4px;
+        font-weight: 600;
+        font-size: 0.9em;
+        margin-top: 0.3em;
+      }
+
+      .theme-preview.light .tp-btn { background: #2563eb; color: #fff; }
+      .theme-preview.dark .tp-btn { background: #3b82f6; color: #fff; }
+
+      /* Simplify table */
+      .simplify-table {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 2em;
+        font-size: 0.5em;
+        text-align: left;
+        max-width: 650px;
+        margin: 0.5em auto;
+      }
+
+      .simplify-table .st-header {
+        color: var(--accent-light);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding-bottom: 0.4em;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        margin-bottom: 0.4em;
+      }
+
+      .simplify-table .st-row {
+        padding: 0.2em 0;
+        border-bottom: 1px solid rgba(255,255,255,0.04);
+        color: var(--text-muted);
+      }
+
+      /* Resource list */
+      .resource-list {
+        text-align: left;
+        max-width: 600px;
+        margin: 0.3em auto;
+      }
+
+      .resource-list h4 {
+        color: var(--accent-light);
+        font-size: 0.55em;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin: 0.8em 0 0.3em;
+      }
+
+      .resource-list h4:first-child { margin-top: 0; }
+
+      .resource-list .rl-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.2em 0;
+        font-size: 0.48em;
+      }
+
+      .resource-list .rl-name {
+        color: var(--text);
+        font-weight: 500;
+      }
+
+      .resource-list .rl-url {
+        color: var(--text-muted);
+        font-family: 'Fira Code', 'Cascadia Code', monospace;
+        font-size: 0.85em;
+      }
+
+      /* Takeaway cards */
+      .takeaways {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 0.8em;
+        margin: 0.6em 0;
+      }
+
+      .takeaway-card {
+        background: var(--surface);
+        border-radius: 8px;
+        padding: 0.8em;
+        border: 1px solid rgba(255,255,255,0.08);
+        text-align: left;
+      }
+
+      .takeaway-card .tk-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.8em;
+        height: 1.8em;
+        background: var(--accent);
+        color: #fff;
+        border-radius: 50%;
+        font-size: 0.6em;
+        font-weight: 700;
+        margin-bottom: 0.4em;
+      }
+
+      .takeaway-card h4 {
+        font-size: 0.55em;
+        font-weight: 700;
+        color: var(--text);
+        margin: 0 0 0.3em;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+
+      .takeaway-card p {
+        font-size: 0.42em !important;
+        color: var(--text-muted);
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      /* No-change list for checkpoint 8 */
+      .no-change-list {
+        display: flex;
+        gap: 0.8em;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 0.5em 0;
+      }
+
+      .no-change-list .nc-item {
+        background: var(--surface);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 6px;
+        padding: 0.3em 0.8em;
+        font-family: 'Fira Code', 'Cascadia Code', monospace;
+        font-size: 0.45em;
+        color: var(--text-muted);
+      }
+
+      .no-change-list .nc-item .nc-x {
+        color: var(--green);
+        margin-right: 0.3em;
+      }
+
+      /* Q&A slide */
+      .qa-slide h1 {
+        font-size: 3em;
+        background: linear-gradient(135deg, var(--accent-light), #a78bfa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ============================================ -->
+        <!-- SLIDE 0.1 — Title                            -->
+        <!-- ============================================ -->
+        <section class="title-slide">
+          <h1>Design Systems</h1>
+          <p class="subtitle" style="font-size: 0.7em; color: var(--text-muted)">
+            From Tokens to Components
+          </p>
+          <p style="font-size: 0.5em; color: var(--text-muted); margin-top: 2em">
+            Building consistent UI across projects and technologies
+          </p>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 0.2 — Agenda                           -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Today's Agenda</h2>
+          <ol class="agenda-list">
+            <li>
+              <span class="topic">What is a Design System?</span>
+            </li>
+            <li>
+              <span class="topic">The Dashboard Project</span>
+            </li>
+            <li>
+              <span class="topic">Building the Button component</span>
+            </li>
+            <li>
+              <span class="topic">Building the Card component</span>
+            </li>
+            <li>
+              <span class="topic">Design Tokens &mdash; theory</span>
+            </li>
+            <li>
+              <span class="topic">Adding tokens to our project</span>
+            </li>
+            <li>
+              <span class="topic">Typography</span>
+              <span class="stretch">STRETCH</span>
+            </li>
+            <li>
+              <span class="topic">Light / Dark mode</span>
+              <span class="stretch">STRETCH</span>
+            </li>
+            <li>
+              <span class="topic">Summary &amp; What's Next</span>
+            </li>
+          </ol>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 0.3 — Prerequisites                    -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Prerequisites</h2>
+          <p style="font-size: 0.55em; color: var(--text-muted); margin-bottom: 0.8em">
+            Before we start, make sure you have:
+          </p>
+          <ul class="checklist">
+            <li>
+              Node.js installed (v18 or higher)
+              <span class="hint">node --version</span>
+            </li>
+            <li>
+              A code editor (VS Code recommended)
+            </li>
+            <li>
+              A terminal / command line
+            </li>
+            <li>
+              Git installed
+              <span class="hint">git --version</span>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 0.4 — Setup Instructions               -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Setup</h2>
+          <pre><code class="language-bash" data-trim data-noescape>
+# 1. Clone the repository
+git clone &lt;repo-url&gt;
+cd ds-workshop
+
+# 2. Install dependencies
+npm install
+
+# 3. Start the dev server
+npm run dev
+
+# 4. Open in browser
+#    http://localhost:3000
+          </code></pre>
+          <p style="font-size: 0.55em; color: var(--text-muted); margin-top: 1em">
+            You should see an empty page with "Dashboard" text.<br/>
+            Raise your hand if you have any issues.
+          </p>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 1.1 — Definition                       -->
+        <!-- ============================================ -->
+        <section>
+          <h2>What is a Design System?</h2>
+
+          <div class="quote-block">
+            A collection of reusable components, guided by clear standards,
+            that can be assembled together to build any number of applications.
+          </div>
+
+          <div class="comparison">
+            <div class="comparison-card negative">
+              <h4>A Design System is NOT...</h4>
+              <ul>
+                <li>Just a component library</li>
+                <li>Just a style guide</li>
+                <li>Just a Figma file</li>
+              </ul>
+            </div>
+            <div class="comparison-card positive">
+              <h4>It IS the full ecosystem</h4>
+              <ul>
+                <li>Design principles</li>
+                <li>Design tokens</li>
+                <li>Documentation</li>
+                <li>Components &amp; tooling</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 1.2 — Why Design Systems Matter        -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Why Design Systems?</h2>
+
+          <div class="benefits">
+            <div class="benefit-card">
+              <div class="number">1</div>
+              <h4>Consistency</h4>
+              <p>Every app looks and feels the same</p>
+            </div>
+            <div class="benefit-card">
+              <div class="number">2</div>
+              <h4>Efficiency</h4>
+              <p>Build once, use everywhere</p>
+            </div>
+            <div class="benefit-card">
+              <div class="number">3</div>
+              <h4>Scalability</h4>
+              <p>10 teams, 50 apps &mdash; still consistent</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 1.3 — The DS Pipeline                  -->
+        <!-- ============================================ -->
+        <section>
+          <h2>The DS Pipeline</h2>
+
+          <div class="mermaid">
+            <pre>
+              %%{init: {'theme': 'dark', 'themeVariables': {'darkMode': true, 'primaryColor': '#1e3a5f', 'primaryTextColor': '#f1f5f9', 'primaryBorderColor': '#3b82f6', 'lineColor': '#60a5fa', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '24px'}}}%%
+              flowchart LR
+                A["Design
+                System
+                ─────────
+                tokens
+                components
+                patterns
+                templates"]
+                B["CSS
+                Implementation
+                ─────────
+                button.css
+                card.css
+                typo.css"]
+                C["Framework
+                Wrappers
+                ─────────
+                Button.jsx
+                Card.jsx
+                Typo.jsx"]
+                D["App
+                Projects
+                ─────────
+                Dashboard
+                Website
+                Portal"]
+
+                A -- defines --> B -- wraps --> C -- builds --> D
+
+                style A fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+                style B fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+                style C fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+                style D fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+
+                linkStyle default stroke:#60a5fa,stroke-width:2px
+            </pre>
+          </div>
+
+          <div class="pipeline-label">
+            <span>Design<br/>decisions</span>
+            <span class="arrow-spacer" style="flex:0.3"></span>
+            <span>Technology<br/>agnostic</span>
+            <span class="arrow-spacer" style="flex:0.3"></span>
+            <span>Technology<br/>specific</span>
+            <span class="arrow-spacer" style="flex:0.3"></span>
+            <span>Business<br/>specific</span>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 1.4 — Dependency Graph                 -->
+        <!-- ============================================ -->
+        <section>
+          <h2>One Source, Many Outputs</h2>
+
+          <div class="mermaid">
+            <pre>
+              %%{init: {'theme': 'dark', 'themeVariables': {'darkMode': true, 'primaryColor': '#1e3a5f', 'primaryTextColor': '#f1f5f9', 'primaryBorderColor': '#3b82f6', 'lineColor': '#60a5fa', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '14px'}}}%%
+              flowchart TD
+                DS["Design System
+                (single source of truth)"]
+
+                DS --> CSS["CSS Implementation
+                (web reference)"]
+                DS --> IOS["iOS Implementation"]
+                DS --> AND["Android Implementation"]
+
+                CSS --> React["React Components"]
+                CSS --> Vue["Vue Components"]
+                CSS --> Svelte["Svelte Components"]
+
+                React --> A1["App 1"]
+                React --> A2["App 2"]
+                React --> A3["App 3"]
+                Vue --> A4["App 4"]
+                Svelte --> A5["App 5"]
+                Svelte --> A6["App 6"]
+
+                style DS fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+                style CSS fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+                style IOS fill:#334155,stroke:#475569,stroke-width:1px,color:#94a3b8
+                style AND fill:#334155,stroke:#475569,stroke-width:1px,color:#94a3b8
+                style React fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+                style Vue fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+                style Svelte fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+
+                linkStyle default stroke:#60a5fa,stroke-width:2px
+            </pre>
+          </div>
+
+          <p style="font-size: 0.5em; color: var(--text-muted); margin-top: 0.6em">
+            Change a design decision &rarr; every platform and every app updates
+          </p>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 1.5 — CSS as the Universal Layer       -->
+        <!-- ============================================ -->
+        <section>
+          <h2>CSS as the Universal Layer</h2>
+
+          <p style="font-size: 0.6em; color: var(--text-muted); margin-bottom: 0.6em">
+            One CSS implementation, many framework wrappers
+          </p>
+
+          <div class="pipeline">
+            <div class="pipeline-step" style="max-width: 200px">
+              <h4>CSS (source of truth)</h4>
+              <ul>
+                <li>button.css</li>
+                <li>card.css</li>
+                <li>typography.css</li>
+              </ul>
+            </div>
+            <div class="pipeline-arrow">&rarr;</div>
+            <div class="pipeline-step">
+              <h4>React</h4>
+              <ul>
+                <li>Button.jsx</li>
+              </ul>
+            </div>
+            <div class="pipeline-step">
+              <h4>Vue</h4>
+              <ul>
+                <li>Button.vue</li>
+              </ul>
+            </div>
+            <div class="pipeline-step">
+              <h4>Svelte</h4>
+              <ul>
+                <li>Button.svelte</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="quote-block" style="margin-top: 0.8em">
+            The CSS is the source of truth.<br/>
+            Each framework component is a thin wrapper that applies the correct CSS classes.
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 1.6 — Workshop Scope                   -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Workshop Scope</h2>
+
+          <div class="two-col">
+            <div>
+              <h3 style="margin-bottom: 0.5em">Today we will:</h3>
+              <ul class="scope-list included">
+                <li>Build a CSS component library (button, card)</li>
+                <li>Wrap CSS in React components</li>
+                <li>Use components to build a dashboard</li>
+                <li>Add design tokens (CSS variables)</li>
+                <li>Implement typography <span class="stretch-badge">stretch</span></li>
+                <li>Implement light/dark theming <span class="stretch-badge">stretch</span></li>
+              </ul>
+            </div>
+            <div>
+              <h3 style="margin-bottom: 0.5em">We will NOT cover:</h3>
+              <ul class="scope-list excluded">
+                <li>Figma integration</li>
+                <li>Style Dictionary / token processors</li>
+                <li>npm publishing / monorepo setup</li>
+                <li>Testing / Storybook</li>
+                <li>Mobile implementations (iOS/Android)</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 2.1 — Wireframe                       -->
+        <!-- ============================================ -->
+        <section>
+          <h2>The Dashboard</h2>
+
+          <div class="wireframe">
+<pre style="margin:0;font:inherit;color:inherit;background:none;border:none;padding:0">
++--------------------------------------------------------------------+
+|                                                                    |
+|   Dashboard Title                              [ Toggle Theme ]    |
+|                                                                    |
++--------------------------------------------------------------------+
+|                                                                    |
+|   +------------------------------+  +------------------------------+
+|   |  Card Title                  |  |  Card Title                  |
+|   |                              |  |                              |
+|   |  Some metric value           |  |  Some metric value           |
+|   |  or description text         |  |  or description text         |
+|   |                              |  |                              |
+|   |                  [ Button ]  |  |                  [ Button ]  |
+|   +------------------------------+  +------------------------------+
+|                                                                    |
+|   +------------------------------+  +------------------------------+
+|   |  Card Title                  |  |  Card Title                  |
+|   |                              |  |                              |
+|   |  Some metric value           |  |  Some metric value           |
+|   |  or description text         |  |  or description text         |
+|   |                              |  |                              |
+|   |                  [ Button ]  |  |                  [ Button ]  |
+|   +------------------------------+  +------------------------------+
+|                                                                    |
++--------------------------------------------------------------------+
+</pre>
+          </div>
+
+          <p style="font-size: 0.5em; color: var(--text-muted); margin-top: 0.5em">
+            This is what we are building today &mdash; a simple metrics dashboard.
+          </p>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 2.2 — Decomposition                   -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Component Decomposition</h2>
+
+          <div class="wireframe">
+<pre style="margin:0;font:inherit;color:inherit;background:none;border:none;padding:0">
++--------------------------------------------------------------------+
+|                                                                    |
+|   <span class="wf-component">[TYPOGRAPHY h1]</span> Dashboard Title           <span class="wf-component">[BUTTON]</span> Toggle     |
+|                                                                    |
++--------------------------------------------------------------------+
+|                                                                    |
+|   +-- <span class="wf-component">CARD</span> -------------------------+  +-- <span class="wf-component">CARD</span> -------------------------+
+|   |  <span class="wf-component">[TYPOGRAPHY h2]</span> Title       |  |  <span class="wf-component">[TYPOGRAPHY h2]</span> Title       |
+|   |                              |  |                              |
+|   |  <span class="wf-component">[TYPOGRAPHY body]</span>           |  |  <span class="wf-component">[TYPOGRAPHY body]</span>           |
+|   |  metric value                |  |  metric value                |
+|   |                              |  |                              |
+|   |                  <span class="wf-component">[BUTTON]</span>    |  |                  <span class="wf-component">[BUTTON]</span>    |
+|   +------------------------------+  +------------------------------+
+|                                                                    |
++--------------------------------------------------------------------+
+</pre>
+          </div>
+
+          <div style="display:flex; gap:2em; justify-content:center; margin-top:0.6em">
+            <div style="font-size:0.5em; color:var(--text-muted)">
+              <span style="color:var(--green); font-weight:700">Typography</span> &mdash; h1, h2, body
+            </div>
+            <div style="font-size:0.5em; color:var(--text-muted)">
+              <span style="color:var(--green); font-weight:700">Button</span> &mdash; primary, secondary
+            </div>
+            <div style="font-size:0.5em; color:var(--text-muted)">
+              <span style="color:var(--green); font-weight:700">Card</span> &mdash; elevated
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 2.3 — Project Structure               -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Project Structure</h2>
+
+          <div class="two-col">
+            <div class="dep-tree">
+              ds-workshop/<br/>
+              &nbsp;&nbsp;src/<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">design-system/</span><br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">tokens/</span><br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;variables.css<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">css/</span><br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;button.css<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;card.css<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;typography.css<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">components/</span><br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Button.jsx<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Card.jsx<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Typography.jsx<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ThemeToggle.jsx<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="highlight">dashboard/</span><br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index.html<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;main.jsx<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Dashboard.jsx<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dashboard.css
+            </div>
+            <div>
+              <div style="font-size:0.5em; margin-bottom:0.8em">
+                <h3 style="margin-bottom:0.3em">Layer 1: Design Tokens</h3>
+                <p style="font-size:1em; color:var(--text-muted)">CSS custom properties<br/><code>tokens/variables.css</code></p>
+              </div>
+              <div style="font-size:0.5em; margin-bottom:0.8em">
+                <h3 style="margin-bottom:0.3em">Layer 2: CSS Components</h3>
+                <p style="font-size:1em; color:var(--text-muted)">Reference implementation (tech-agnostic)<br/><code>css/button.css</code> <code>css/card.css</code></p>
+              </div>
+              <div style="font-size:0.5em; margin-bottom:0.8em">
+                <h3 style="margin-bottom:0.3em">Layer 3: React Components</h3>
+                <p style="font-size:1em; color:var(--text-muted)">Framework-specific wrappers<br/><code>Button.jsx</code> <code>Card.jsx</code></p>
+              </div>
+              <div style="font-size:0.5em">
+                <h3 style="margin-bottom:0.3em">Layer 4: Application</h3>
+                <p style="font-size:1em; color:var(--text-muted)">Business-specific usage<br/><code>Dashboard.jsx</code></p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 2.4 — What We Will Build               -->
+        <!-- ============================================ -->
+        <section>
+          <h2>What We Will Build Today</h2>
+
+          <div class="mermaid">
+            <pre>
+              %%{init: {'theme': 'dark', 'themeVariables': {'darkMode': true, 'primaryColor': '#1e3a5f', 'primaryTextColor': '#f1f5f9', 'primaryBorderColor': '#3b82f6', 'lineColor': '#60a5fa', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '24px'}}}%%
+              flowchart LR
+                A["tokens/
+                ─────────
+                variables.css"]
+                B["css/
+                ─────────
+                button.css
+                card.css
+                typo.css"]
+                C["components/
+                ─────────
+                Button.jsx
+                Card.jsx
+                Typo.jsx"]
+                D["dashboard/
+                ─────────
+                Dashboard.jsx"]
+
+                A -- defines --> B -- wraps --> C -- builds --> D
+
+                style A fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+                style B fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+                style C fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+                style D fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+
+                linkStyle default stroke:#60a5fa,stroke-width:2px
+            </pre>
+          </div>
+
+          <div class="pipeline-label">
+            <span>Module 6</span>
+            <span class="arrow-spacer" style="flex:0.3"></span>
+            <span>Module 3&ndash;4</span>
+            <span class="arrow-spacer" style="flex:0.3"></span>
+            <span>Module 3&ndash;4</span>
+            <span class="arrow-spacer" style="flex:0.3"></span>
+            <span>Module 3&ndash;4</span>
+          </div>
+
+          <div class="quote-block" style="margin-top:0.6em; font-style:normal; font-size:0.5em">
+            Changes flow left to right. Change a token &rarr; all CSS updates &rarr; all components update.
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 3.1 — Button Spec                     -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Button Component</h2>
+          <p style="font-size:0.5em; color:var(--text-muted); margin-bottom:0.3em">Variants &times; States</p>
+
+          <div class="btn-demo-grid">
+            <div></div>
+            <div class="col-label">Primary</div>
+            <div class="col-label">Secondary</div>
+            <div class="col-label">Tertiary</div>
+
+            <div class="row-label">Default</div>
+            <div style="text-align:center"><span class="btn-demo primary">Action</span></div>
+            <div style="text-align:center"><span class="btn-demo secondary">Action</span></div>
+            <div style="text-align:center"><span class="btn-demo tertiary">Action</span></div>
+
+            <div class="row-label">Hover</div>
+            <div style="text-align:center"><span class="btn-demo primary hover">Action</span></div>
+            <div style="text-align:center"><span class="btn-demo secondary hover">Action</span></div>
+            <div style="text-align:center"><span class="btn-demo tertiary hover">Action</span></div>
+
+            <div class="row-label">Disabled</div>
+            <div style="text-align:center"><span class="btn-demo primary disabled">Action</span></div>
+            <div style="text-align:center"><span class="btn-demo secondary disabled">Action</span></div>
+            <div style="text-align:center"><span class="btn-demo tertiary disabled">Action</span></div>
+          </div>
+
+          <div class="btn-size-row">
+            <div class="btn-size-item">
+              <span class="btn-demo primary sm">Action</span>
+              <div class="label">Small<br/>py:4px px:8px | 12px</div>
+            </div>
+            <div class="btn-size-item">
+              <span class="btn-demo primary md">Action</span>
+              <div class="label">Medium (default)<br/>py:8px px:16px | 14px</div>
+            </div>
+            <div class="btn-size-item">
+              <span class="btn-demo primary lg">Action</span>
+              <div class="label">Large<br/>py:12px px:24px | 16px</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 3.2 — CSS Refresher: BEM              -->
+        <!-- ============================================ -->
+        <section>
+          <h2>CSS Refresher</h2>
+
+          <div class="two-col">
+            <div>
+              <h3 style="margin-bottom:0.4em">Naming Convention (BEM)</h3>
+              <pre><code class="language-css" data-trim data-noescape>
+/* Block — the component itself */
+.btn { ... }
+
+/* Modifier — a variant of the block */
+.btn--primary { ... }
+.btn--secondary { ... }
+
+/* State — CSS pseudo-class */
+.btn:hover { ... }
+.btn:disabled { ... }
+              </code></pre>
+            </div>
+            <div>
+              <h3 style="margin-bottom:0.4em">Useful Properties</h3>
+              <pre><code class="language-css" data-trim data-noescape>
+padding
+background-color
+color
+border
+border-radius
+font-size
+cursor
+opacity
+transition
+              </code></pre>
+              <p style="font-size:0.45em; color:var(--text-muted); margin-top:0.3em">
+                Use <code>cursor: pointer</code> for clickability<br/>
+                Use <code>transition</code> for smooth hover<br/>
+                Disabled = lower opacity + <code>not-allowed</code>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 3.3 — Exercise 3A: Button CSS         -->
+        <!-- ============================================ -->
+        <section>
+          <h2 style="margin-bottom:0.3em">Button CSS</h2>
+          <p style="font-size:0.5em; color:var(--text-muted); margin-bottom:0.2em">
+            Open: <code>src/design-system/css/button.css</code><br/>
+            Use the spec from the previous slide. Choose your own colors!
+          </p>
+
+          <div class="selector-list">
+            <div class="sel-group">
+              <span class="sel-name">.btn</span> <span class="sel-comment">/* Base styles */</span>
+              <div class="sel-props">border-radius, cursor, transition</div>
+            </div>
+            <div class="sel-group">
+              <span class="sel-name">.btn--primary</span> <span class="sel-comment">/* Filled + bordered */</span>
+              <div class="sel-props">background-color, color, border</div>
+            </div>
+            <div class="sel-group">
+              <span class="sel-name">.btn--secondary</span> <span class="sel-comment">/* Bordered (no fill) */</span>
+              <div class="sel-props">background-color, color, border</div>
+            </div>
+            <div class="sel-group">
+              <span class="sel-name">.btn--tertiary</span> <span class="sel-comment">/* Filled (no border) */</span>
+              <div class="sel-props">background-color, color, border</div>
+            </div>
+            <div class="sel-group">
+              <span class="sel-name">.btn--sm</span> / <span class="sel-name">.btn--md</span> / <span class="sel-name">.btn--lg</span> <span class="sel-comment">/* Sizes */</span>
+              <div class="sel-props">padding, font-size</div>
+            </div>
+            <div class="sel-group">
+              <span class="sel-name">.btn:hover</span> <span class="sel-comment">/* Hover feedback */</span>
+              <div class="sel-props">background-color (darker shade)</div>
+            </div>
+            <div class="sel-group">
+              <span class="sel-name">.btn:disabled</span> <span class="sel-comment">/* Disabled state */</span>
+              <div class="sel-props">opacity, cursor: not-allowed</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 3.4 — Exercise 3B: Button.jsx         -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Button React Component</h2>
+          <p style="font-size:0.45em; color:var(--text-muted); margin-bottom:0.3em">
+            Open: <code>src/components/Button.jsx</code> &mdash; a thin wrapper around button.css
+          </p>
+
+          <pre style="font-size:0.42em"><code class="language-jsx" data-trim data-noescape>
+import '../design-system/css/button.css'
+
+function Button({ variant, size = 'md',
+                   children, onClick, disabled }) {
+  const className = `btn btn--${variant} btn--${size}`
+
+  return (
+    &lt;button className={className}
+            onClick={onClick} disabled={disabled}&gt;
+      {children}
+    &lt;/button&gt;
+  )
+}
+          </code></pre>
+
+          <div class="quote-block" style="margin-top:0.4em; font-size:0.48em; font-style:normal">
+            CSS does ALL the styling.<br/>
+            React only applies the right classes.<br/>
+            The component is a <strong>thin wrapper</strong>.
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 3.5 — Exercise 3C: Use in Dashboard   -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Use Button in Dashboard</h2>
+          <p style="font-size:0.5em; color:var(--text-muted); margin-bottom:0.3em">
+            Open: <code>src/dashboard/Dashboard.jsx</code>
+          </p>
+
+          <pre><code class="language-jsx" data-trim data-noescape>
+import { Button } from '../components/Button'
+
+// Add a few buttons to the page:
+
+&lt;Button variant="primary"&gt;View Details&lt;/Button&gt;
+
+&lt;Button variant="secondary"&gt;Cancel&lt;/Button&gt;
+
+&lt;Button variant="primary" disabled&gt;Disabled&lt;/Button&gt;
+          </code></pre>
+
+          <p style="font-size:0.55em; color:var(--text-muted); margin-top:0.8em">
+            Check your browser &mdash; you should see styled buttons.
+          </p>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 3.6 — Checkpoint                      -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Checkpoint &mdash; Module 3</h2>
+          <p style="font-size:0.55em; color:var(--text-muted); margin-bottom:0.5em">
+            You should now see styled buttons on your page.
+          </p>
+
+          <div class="checkpoint-flow">
+            <div class="cf-step">button.css<br/><span style="color:var(--text-muted)">(styling)</span></div>
+            <div class="cf-arrow">&rarr;</div>
+            <div class="cf-step">Button.jsx<br/><span style="color:var(--text-muted)">(wrapper)</span></div>
+            <div class="cf-arrow">&rarr;</div>
+            <div class="cf-step">Dashboard.jsx<br/><span style="color:var(--text-muted)">(usage)</span></div>
+          </div>
+
+          <div class="quote-block" style="margin-top:0.8em; font-size:0.55em; font-style:normal">
+            The CSS is the source of truth.<br/>
+            <code>Button.jsx</code> knows <strong>nothing</strong> about colors or padding.<br/>
+            It only knows which CSS classes to apply.
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 4.1 — Card Spec                       -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Card Component</h2>
+          <p style="font-size:0.5em; color:var(--text-muted); margin-bottom:0.3em">Variants &times; States</p>
+
+          <div class="card-demo-row">
+            <div>
+              <p style="font-size:0.45em; color:var(--accent-light); font-weight:700; text-align:center; margin-bottom:0.4em">ELEVATED</p>
+              <div class="card-demo elevated">
+                <div class="cd-title">Card Title</div>
+                <div class="cd-content">Content area with metric value or description text.</div>
+                <div class="cd-footer">[ Button ]</div>
+              </div>
+              <p style="font-size:0.38em; color:var(--text-muted); text-align:center; margin-top:0.3em">
+                background: surface<br/>box-shadow: subtle<br/>border: none
+              </p>
+            </div>
+            <div>
+              <p style="font-size:0.45em; color:var(--accent-light); font-weight:700; text-align:center; margin-bottom:0.4em">OUTLINED</p>
+              <div class="card-demo outlined">
+                <div class="cd-title">Card Title</div>
+                <div class="cd-content">Content area with metric value or description text.</div>
+                <div class="cd-footer">[ Button ]</div>
+              </div>
+              <p style="font-size:0.38em; color:var(--text-muted); text-align:center; margin-top:0.3em">
+                background: transparent<br/>border: solid<br/>box-shadow: none
+              </p>
+            </div>
+          </div>
+
+          <p style="font-size:0.45em; color:var(--accent-light); font-weight:700; text-align:center; margin:0.6em 0 0.2em">ANATOMY</p>
+          <div class="card-anatomy">
+            <div>
+              <span class="ca-label">.card__title</span>
+              <span class="ca-desc">Header</span>
+            </div>
+            <div>
+              <span class="ca-label">.card__content</span>
+              <span class="ca-desc">Main content</span>
+            </div>
+            <div>
+              <span class="ca-label">.card__footer</span>
+              <span class="ca-desc">Actions</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 4.2 — Exercise 4A: Card CSS           -->
+        <!-- ============================================ -->
+        <section>
+          <h2 style="margin-bottom:0.3em">Card CSS</h2>
+          <p style="font-size:0.5em; color:var(--text-muted); margin-bottom:0.1em">
+            Open: <code>src/design-system/css/card.css</code>
+          </p>
+
+          <div class="selector-list">
+            <div class="sel-group">
+              <span class="sel-name">.card</span> <span class="sel-comment">/* Base styles */</span>
+              <div class="sel-props">padding, border-radius, background-color</div>
+            </div>
+            <div class="sel-group">
+              <span class="sel-name">.card--elevated</span> <span class="sel-comment">/* Shadow variant */</span>
+              <div class="sel-props">box-shadow</div>
+            </div>
+            <div class="sel-group">
+              <span class="sel-name">.card--outlined</span> <span class="sel-comment">/* Border variant */</span>
+              <div class="sel-props">border</div>
+            </div>
+            <div class="sel-group">
+              <span class="sel-name">.card__title</span> <span class="sel-comment">/* Title area */</span>
+              <div class="sel-props">font-size, font-weight, margin-bottom</div>
+            </div>
+            <div class="sel-group">
+              <span class="sel-name">.card__content</span> <span class="sel-comment">/* Content area */</span>
+              <div class="sel-props">font-size, color, margin-bottom</div>
+            </div>
+            <div class="sel-group">
+              <span class="sel-name">.card__footer</span> <span class="sel-comment">/* Footer (actions) */</span>
+              <div class="sel-props">display: flex, justify-content: flex-end, gap</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 4.3 — Exercise 4B: Card.jsx           -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Card React Component</h2>
+          <p style="font-size:0.5em; color:var(--text-muted); margin-bottom:0.3em">
+            Open: <code>src/components/Card.jsx</code>
+          </p>
+
+          <pre><code class="language-jsx" data-trim data-noescape>
+import '../design-system/css/card.css'
+
+function Card({ variant = 'elevated', title, children, footer }) {
+  return (
+    &lt;div className={`card card--${variant}`}&gt;
+      &lt;div className="card__title"&gt;{title}&lt;/div&gt;
+      &lt;div className="card__content"&gt;{children}&lt;/div&gt;
+      {footer && &lt;div className="card__footer"&gt;{footer}&lt;/div&gt;}
+    &lt;/div&gt;
+  )
+}
+          </code></pre>
+
+          <p style="font-size:0.5em; color:var(--text-muted); margin-top:0.5em">
+            Props: <code>variant</code> ('elevated' | 'outlined'),
+            <code>title</code>, <code>children</code>, <code>footer</code> (React node)
+          </p>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 4.4 — Exercise 4C: Dashboard Layout   -->
+        <!-- ============================================ -->
+        <section>
+          <h2 style="margin-bottom:0.3em">Build the Dashboard</h2>
+          <p style="font-size:0.5em; color:var(--text-muted); margin-bottom:0.3em">
+            Open: <code>src/dashboard/Dashboard.jsx</code> &mdash; place Cards inside the grid container.
+          </p>
+
+          <pre style="font-size:0.38em"><code class="language-jsx" data-trim data-noescape>
+&lt;Card title="Total Users"
+      footer={&lt;Button variant="primary"&gt;View&lt;/Button&gt;}&gt;
+  12,847
+&lt;/Card&gt;
+
+&lt;Card title="Revenue"
+      footer={&lt;Button variant="primary"&gt;View&lt;/Button&gt;}&gt;
+  $48,352
+&lt;/Card&gt;
+
+&lt;Card title="Active Sessions"
+      footer={&lt;Button variant="primary"&gt;View&lt;/Button&gt;}&gt;
+  1,423
+&lt;/Card&gt;
+
+&lt;Card title="Error Rate"
+      footer={&lt;Button variant="primary"&gt;View&lt;/Button&gt;}&gt;
+  2.4%
+&lt;/Card&gt;
+          </code></pre>
+
+          <p style="font-size:0.5em; color:var(--text-muted); margin-top:0.4em">
+            The grid layout is already set up in <code>dashboard.css</code>.
+          </p>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 4.5 — Checkpoint                      -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Checkpoint &mdash; Module 4</h2>
+
+          <div class="wireframe" style="max-width:500px; font-size:0.35em">
+<pre style="margin:0;font:inherit;color:inherit;background:none;border:none;padding:0">
++------------------------------------------------+
+|  +--------------------+  +--------------------+ |
+|  |  Total Users       |  |  Revenue           | |
+|  |  12,847            |  |  $48,352           | |
+|  |       [ View ]     |  |       [ View ]     | |
+|  +--------------------+  +--------------------+ |
+|  +--------------------+  +--------------------+ |
+|  |  Sessions          |  |  Error Rate        | |
+|  |  1,423             |  |  2.4%              | |
+|  |       [ View ]     |  |       [ View ]     | |
+|  +--------------------+  +--------------------+ |
++------------------------------------------------+
+</pre>
+          </div>
+
+          <div class="checkpoint-flow">
+            <div class="cf-step">CSS</div>
+            <div class="cf-arrow">&rarr;</div>
+            <div class="cf-step">React</div>
+            <div class="cf-arrow">&rarr;</div>
+            <div class="cf-step">Dashboard</div>
+          </div>
+
+          <p style="font-size:0.55em; color:var(--text-muted); margin-top:0.5em">
+            Two layers done: CSS &rarr; React &rarr; Dashboard. Next: <strong>tokens!</strong>
+          </p>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 5.1 — The Problem                     -->
+        <!-- ============================================ -->
+        <section>
+          <h2>The Problem</h2>
+
+          <div class="quote-block" style="font-size:0.6em; font-style:italic; margin-bottom:0.5em">
+            "The client wants a different shade of blue."
+          </div>
+
+          <p style="font-size:0.55em; color:var(--text-muted); margin-bottom:0.3em">
+            Where is <code>#2563eb</code> used?
+          </p>
+
+          <pre><code class="language-css" data-trim data-noescape>
+/* button.css */
+background: #2563eb;          /* &lt;-- here */
+color: #2563eb;               /* &lt;-- here */
+border: 1px solid #2563eb;    /* &lt;-- here */
+
+/* card.css — maybe here too? */
+/* typography.css — and here? */
+          </code></pre>
+
+          <p style="font-size:0.55em; color:var(--text-muted); margin-top:0.5em">
+            Find all. Replace all. Hope you didn't miss any.<br/>
+            <span style="color:var(--red)">Now imagine 50 files across 3 projects...</span>
+          </p>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 5.2 — What Are Design Tokens          -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Design Tokens</h2>
+
+          <div class="quote-block" style="font-size:0.65em; margin-bottom:0.6em">
+            Tokens are <strong>named design decisions</strong>.
+          </div>
+
+          <div style="max-width:500px; margin:0 auto; text-align:left">
+            <div style="display:flex; gap:1em; align-items:center; padding:0.3em 0; font-size:0.6em">
+              <span style="color:var(--red); font-family:'Fira Code',monospace; min-width:100px">#2563eb</span>
+              <span style="color:var(--accent)">&rarr;</span>
+              <span style="color:var(--green)">"primary color"</span>
+            </div>
+            <div style="display:flex; gap:1em; align-items:center; padding:0.3em 0; font-size:0.6em">
+              <span style="color:var(--red); font-family:'Fira Code',monospace; min-width:100px">8px</span>
+              <span style="color:var(--accent)">&rarr;</span>
+              <span style="color:var(--green)">"small spacing"</span>
+            </div>
+            <div style="display:flex; gap:1em; align-items:center; padding:0.3em 0; font-size:0.6em">
+              <span style="color:var(--red); font-family:'Fira Code',monospace; min-width:100px">4px</span>
+              <span style="color:var(--accent)">&rarr;</span>
+              <span style="color:var(--green)">"small border radius"</span>
+            </div>
+          </div>
+
+          <p style="font-size:0.55em; color:var(--text-muted); margin-top:0.8em">
+            A token is a <strong>name</strong> for a <strong>value</strong>.<br/>
+            Change the value in one place &mdash; it updates everywhere.
+          </p>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 5.3 — Token Categories                -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Token Categories</h2>
+
+          <div class="token-categories">
+            <div class="tc-label">Color</div>
+            <div class="tc-values">--color-primary, --color-surface, --color-text</div>
+
+            <div class="tc-label">Spacing</div>
+            <div class="tc-values">--spacing-sm, --spacing-md, --spacing-lg</div>
+
+            <div class="tc-label">Typography</div>
+            <div class="tc-values">--font-size-sm, --font-size-md, --font-size-lg</div>
+
+            <div class="tc-label">Radius</div>
+            <div class="tc-values">--radius-sm, --radius-md, --radius-lg</div>
+
+            <div class="tc-label">Shadows</div>
+            <div class="tc-values">--shadow-sm, --shadow-md, --shadow-lg</div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 5.4 — Token Hierarchy                 -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Token Hierarchy</h2>
+
+          <div class="token-hierarchy">
+            <div class="token-col">
+              <h4>Global Tokens</h4>
+              <div class="tc-sub">(raw values)</div>
+              <ul>
+                <li>--blue-500: #2563eb</li>
+                <li>--blue-600: #1d4ed8</li>
+                <li>--gray-100: #f3f4f6</li>
+                <li>--gray-800: #1f2937</li>
+                <li>--space-4: 0.25rem</li>
+                <li>--space-8: 0.5rem</li>
+                <li>--radius-4: 4px</li>
+                <li>--radius-8: 8px</li>
+              </ul>
+            </div>
+            <div class="token-col">
+              <h4>Semantic Tokens</h4>
+              <div class="tc-sub">(intent / meaning)</div>
+              <ul>
+                <li>--color-primary</li>
+                <li>--color-primary-hover</li>
+                <li>--color-surface</li>
+                <li>--color-text</li>
+                <li>--spacing-sm</li>
+                <li>--spacing-md</li>
+                <li>--radius-sm</li>
+                <li>--radius-md</li>
+              </ul>
+            </div>
+            <div class="token-col">
+              <h4>Component Tokens</h4>
+              <div class="tc-sub">(specific usage)</div>
+              <ul>
+                <li>--btn-bg-primary</li>
+                <li>--btn-bg-hover</li>
+                <li>--card-bg</li>
+                <li>--btn-text, --card-text</li>
+                <li>--btn-padding-y</li>
+                <li>--btn-padding-x</li>
+                <li>--btn-radius</li>
+                <li>--card-radius</li>
+              </ul>
+            </div>
+          </div>
+
+          <p style="font-size:0.4em; color:var(--text-muted); margin-top:0.4em">
+            Global <span style="color:var(--accent)">&rarr;</span> Semantic <span style="color:var(--accent)">&rarr;</span> Component &mdash; each level adds meaning
+          </p>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 5.5 — CSS Custom Properties           -->
+        <!-- ============================================ -->
+        <section>
+          <h2>CSS Custom Properties</h2>
+          <p style="font-size:0.5em; color:var(--text-muted); margin-bottom:0.3em">
+            The simplest token format
+          </p>
+
+          <div class="two-col">
+            <div>
+              <h3 style="margin-bottom:0.3em">Define once</h3>
+              <pre><code class="language-css" data-trim data-noescape>
+:root {
+  --color-primary: #2563eb;
+  --spacing-md:    16px;
+  --radius-sm:     4px;
+}
+              </code></pre>
+            </div>
+            <div>
+              <h3 style="margin-bottom:0.3em">Use everywhere</h3>
+              <pre><code class="language-css" data-trim data-noescape>
+.btn--primary {
+  background: var(--color-primary);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-sm);
+}
+              </code></pre>
+            </div>
+          </div>
+
+          <p style="font-size:0.55em; color:var(--green); margin-top:0.6em; font-weight:600">
+            This is what we will implement next.
+          </p>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 5.6 — Real World Token Pipeline       -->
+        <!-- ============================================ -->
+        <section>
+          <h2>In the Real World</h2>
+
+          <div class="mermaid">
+            <pre>
+              %%{init: {'theme': 'dark', 'themeVariables': {'darkMode': true, 'primaryColor': '#1e3a5f', 'primaryTextColor': '#f1f5f9', 'primaryBorderColor': '#3b82f6', 'lineColor': '#60a5fa', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '24px'}}}%%
+              flowchart LR
+                A["Figma"]
+                B["JSON
+                tokens"]
+                C["Style
+                Dictionary
+                (processor)"]
+                D["CSS vars
+                iOS vars
+                Android"]
+
+                A --> B --> C --> D
+
+                style A fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+                style B fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+                style C fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+                style D fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+
+                linkStyle default stroke:#60a5fa,stroke-width:2px
+            </pre>
+          </div>
+
+          <div style="font-size:0.5em; color:var(--text-muted); text-align:left; max-width:550px; margin:0.5em auto">
+            <p style="font-size:1em">Designers change tokens in Figma<br/>
+            &rarr; JSON exported automatically<br/>
+            &rarr; Style Dictionary converts to platform-specific formats<br/>
+            &rarr; CSS, iOS, Android all update</p>
+          </div>
+
+          <p style="font-size:0.5em; color:var(--orange); margin-top:0.5em; font-weight:600">
+            Today we skip the tooling and write CSS variables directly.<br/>
+            The concept is identical.
+          </p>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 6.1 — Exercise 6A: Define Tokens      -->
+        <!-- ============================================ -->
+        <section>
+          <h2 style="margin-bottom:0.1em; font-size:1.4em">Define Design Tokens</h2>
+          <p style="font-size:0.45em; color:var(--text-muted); margin-bottom:0.15em">
+            Open: <code>src/design-system/tokens/variables.css</code> &mdash; define inside <code>:root { }</code>
+          </p>
+
+          <div class="two-col" style="gap:1em">
+            <div>
+              <pre style="padding:0.3em 0.5em; margin:0"><code class="language-css" data-trim data-noescape style="font-size:0.38em">
+/* COLORS */
+--color-primary:       #2563eb;
+--color-primary-hover: #1d4ed8;
+--color-secondary:     transparent;
+--color-surface:       #ffffff;
+--color-background:    #f3f4f6;
+--color-text:          #1f2937;
+--color-text-muted:    #6b7280;
+--color-border:        #e5e7eb;
+--color-on-primary:    #ffffff;
+
+/* SPACING */
+--spacing-xs:  4px;
+--spacing-sm:  8px;
+--spacing-md:  16px;
+--spacing-lg:  24px;
+--spacing-xl:  32px;
+              </code></pre>
+            </div>
+            <div>
+              <pre style="padding:0.3em 0.5em; margin:0"><code class="language-css" data-trim data-noescape style="font-size:0.38em">
+/* RADIUS */
+--radius-sm:  4px;
+--radius-md:  8px;
+/* TYPOGRAPHY */
+--font-family:         system-ui, sans-serif;
+--font-size-xs:        0.75rem;
+--font-size-sm:        0.875rem;
+--font-size-md:        1rem;
+--font-size-lg:        1.5rem;
+--font-size-xl:        2rem;
+--font-weight-regular: 400;
+--font-weight-medium:  600;
+--font-weight-bold:    700;
+/* SHADOWS */
+--shadow-sm: 0 1px 3px rgba(0,0,0,.12);
+--shadow-md: 0 4px 6px rgba(0,0,0,.1);
+              </code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 6.2 — Exercise 6B: Refactor Button    -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Refactor button.css</h2>
+          <p style="font-size:0.48em; color:var(--text-muted); margin-bottom:0.3em">
+            Open: <code>src/design-system/css/button.css</code> &mdash; replace hardcoded values with tokens
+          </p>
+
+          <div class="refactor-table">
+            <div class="rt-header">Before</div>
+            <div class="rt-header" style="text-align:center"></div>
+            <div class="rt-header">After</div>
+
+            <div class="rt-before">background: #2563eb</div>
+            <div class="rt-arrow">&rarr;</div>
+            <div class="rt-after">background: var(--color-primary)</div>
+
+            <div class="rt-before">color: #ffffff</div>
+            <div class="rt-arrow">&rarr;</div>
+            <div class="rt-after">color: var(--color-on-primary)</div>
+
+            <div class="rt-before">padding: 8px 16px</div>
+            <div class="rt-arrow">&rarr;</div>
+            <div class="rt-after">padding: var(--spacing-sm) var(--spacing-md)</div>
+
+            <div class="rt-before">border-radius: 4px</div>
+            <div class="rt-arrow">&rarr;</div>
+            <div class="rt-after">border-radius: var(--radius-sm)</div>
+
+            <div class="rt-before">font-size: 14px</div>
+            <div class="rt-arrow">&rarr;</div>
+            <div class="rt-after">font-size: var(--font-size-sm)</div>
+
+            <div class="rt-before">font-size: 12px</div>
+            <div class="rt-arrow">&rarr;</div>
+            <div class="rt-after">font-size: var(--font-size-xs)</div>
+
+            <div class="rt-before">font-size: 16px</div>
+            <div class="rt-arrow">&rarr;</div>
+            <div class="rt-after">font-size: var(--font-size-md)</div>
+
+            <div class="rt-before">border: 1px solid #2563eb</div>
+            <div class="rt-arrow">&rarr;</div>
+            <div class="rt-after">border: 1px solid var(--color-primary)</div>
+
+            <div class="rt-before">color: #2563eb</div>
+            <div class="rt-arrow">&rarr;</div>
+            <div class="rt-after">color: var(--color-primary)</div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 6.3 — Exercise 6C: Refactor Card      -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Refactor card.css</h2>
+          <p style="font-size:0.48em; color:var(--text-muted); margin-bottom:0.3em">
+            Open: <code>src/design-system/css/card.css</code> &mdash; replace hardcoded values with tokens
+          </p>
+
+          <div class="refactor-table">
+            <div class="rt-header">Before</div>
+            <div class="rt-header" style="text-align:center"></div>
+            <div class="rt-header">After</div>
+
+            <div class="rt-before">padding: 24px</div>
+            <div class="rt-arrow">&rarr;</div>
+            <div class="rt-after">padding: var(--spacing-lg)</div>
+
+            <div class="rt-before">border-radius: 8px</div>
+            <div class="rt-arrow">&rarr;</div>
+            <div class="rt-after">border-radius: var(--radius-md)</div>
+
+            <div class="rt-before">background: #ffffff</div>
+            <div class="rt-arrow">&rarr;</div>
+            <div class="rt-after">background: var(--color-surface)</div>
+
+            <div class="rt-before">box-shadow: 0 1px 3px...</div>
+            <div class="rt-arrow">&rarr;</div>
+            <div class="rt-after">box-shadow: var(--shadow-sm)</div>
+
+            <div class="rt-before">border: 1px solid #e5e7eb</div>
+            <div class="rt-arrow">&rarr;</div>
+            <div class="rt-after">border: 1px solid var(--color-border)</div>
+
+            <div class="rt-before">font-size: 18px</div>
+            <div class="rt-arrow">&rarr;</div>
+            <div class="rt-after">font-size: var(--font-size-lg)</div>
+
+            <div class="rt-before">color: #6b7280</div>
+            <div class="rt-arrow">&rarr;</div>
+            <div class="rt-after">color: var(--color-text-muted)</div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 6.4 — Exercise 6D: Test Token Changes -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Experience the Power of Tokens</h2>
+          <p style="font-size:0.48em; color:var(--text-muted); margin-bottom:0.3em">
+            Open: <code>src/design-system/tokens/variables.css</code> &mdash; try changing these values:
+          </p>
+
+          <div class="token-test-list">
+            <div class="tt-item">
+              <span class="tt-number">1</span>
+              <span class="tt-instruction">Change <code>--color-primary</code> from <code>#2563eb</code> to <code>#dc2626</code> (red)</span>
+              <div class="tt-result">&rarr; Watch ALL buttons change color instantly</div>
+            </div>
+            <div class="tt-item">
+              <span class="tt-number">2</span>
+              <span class="tt-instruction">Change <code>--radius-sm</code> from <code>4px</code> to <code>20px</code></span>
+              <div class="tt-result">&rarr; Watch all buttons become pill-shaped</div>
+            </div>
+            <div class="tt-item">
+              <span class="tt-number">3</span>
+              <span class="tt-instruction">Change <code>--spacing-lg</code> from <code>24px</code> to <code>48px</code></span>
+              <div class="tt-result">&rarr; Watch all cards get more padding</div>
+            </div>
+          </div>
+
+          <p style="font-size:0.5em; color:var(--orange); margin-top:0.5em; font-weight:600">
+            Change them back when you are done.
+          </p>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 6.5 — Checkpoint                      -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Checkpoint &mdash; Module 6</h2>
+
+          <div class="quote-block" style="font-size:0.6em; margin-bottom:0.5em; font-style:normal">
+            You changed <strong>one</strong> variable.<br/>
+            <strong>Every</strong> component that uses it updated automatically.
+          </div>
+
+          <p style="font-size:0.55em; color:var(--text-muted); margin-bottom:0.4em">
+            This is the core value of tokenization.
+          </p>
+
+          <div class="checkpoint-flow">
+            <div class="cf-step">tokens/<br/>variables.css</div>
+            <div class="cf-arrow">&rarr;</div>
+            <div class="cf-step">css/<br/>button.css</div>
+            <div class="cf-arrow">&rarr;</div>
+            <div class="cf-step">Button.jsx</div>
+            <div class="cf-arrow">&rarr;</div>
+            <div class="cf-step" style="border:none; background:none">&nbsp;</div>
+          </div>
+          <div class="checkpoint-flow" style="margin-top:-0.5em">
+            <div class="cf-step" style="visibility:hidden">tokens/<br/>variables.css</div>
+            <div class="cf-arrow" style="visibility:hidden">&rarr;</div>
+            <div class="cf-step">css/<br/>card.css</div>
+            <div class="cf-arrow">&rarr;</div>
+            <div class="cf-step">Card.jsx</div>
+            <div class="cf-arrow">&rarr;</div>
+            <div class="cf-step">Dashboard</div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 7.1 — Typography Spec [STRETCH]       -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Typography Component</h2>
+
+          <div class="type-scale">
+            <div class="ts-row">
+              <span class="ts-label">H1</span>
+              <span class="ts-sample ts-h1">Dashboard Overview</span>
+              <span class="ts-meta">2rem | weight: 700</span>
+            </div>
+            <div class="ts-row">
+              <span class="ts-label">H2</span>
+              <span class="ts-sample ts-h2">Card Title</span>
+              <span class="ts-meta">1.5rem | weight: 600</span>
+            </div>
+            <div class="ts-row">
+              <span class="ts-label">H3</span>
+              <span class="ts-sample ts-h3">Section Header</span>
+              <span class="ts-meta">1.25rem | weight: 600</span>
+            </div>
+            <div class="ts-row">
+              <span class="ts-label">Body</span>
+              <span class="ts-sample ts-body">Regular paragraph text</span>
+              <span class="ts-meta">1rem | weight: 400</span>
+            </div>
+            <div class="ts-row">
+              <span class="ts-label">Caption</span>
+              <span class="ts-sample ts-caption">Small label text</span>
+              <span class="ts-meta">0.75rem | weight: 400</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 7.2 — Exercise 7A: Typography CSS     -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Typography CSS</h2>
+          <p style="font-size:0.48em; color:var(--text-muted); margin-bottom:0.3em">
+            Open: <code>src/design-system/css/typography.css</code> &mdash; tokens are already defined, use <code>var()</code>!
+          </p>
+
+          <div class="selector-list">
+            <div class="sel-group">
+              <span class="sel-name">.typo</span> <span class="sel-comment">/* Base styles */</span>
+              <div class="sel-props">font-family: <span class="hint">var(--font-family)</span>; line-height: 1.5</div>
+            </div>
+            <div class="sel-group">
+              <span class="sel-name">.typo--h1</span> <span class="sel-comment">/* Largest heading */</span>
+              <div class="sel-props">font-size: <span class="hint">var(--font-size-xl)</span>; font-weight: <span class="hint">var(--font-weight-bold)</span></div>
+            </div>
+            <div class="sel-group">
+              <span class="sel-name">.typo--h2</span> <span class="sel-comment">/* Section heading */</span>
+              <div class="sel-props">font-size: <span class="hint">var(--font-size-lg)</span>; font-weight: <span class="hint">var(--font-weight-medium)</span></div>
+            </div>
+            <div class="sel-group">
+              <span class="sel-name">.typo--h3</span> <span class="sel-comment">/* Sub-section heading */</span>
+              <div class="sel-props">font-size: 1.25rem; font-weight: <span class="hint">var(--font-weight-medium)</span></div>
+            </div>
+            <div class="sel-group">
+              <span class="sel-name">.typo--body</span> <span class="sel-comment">/* Default text */</span>
+              <div class="sel-props">font-size: <span class="hint">var(--font-size-md)</span>; font-weight: <span class="hint">var(--font-weight-regular)</span></div>
+            </div>
+            <div class="sel-group">
+              <span class="sel-name">.typo--caption</span> <span class="sel-comment">/* Small caption */</span>
+              <div class="sel-props">font-size: <span class="hint">var(--font-size-xs)</span>; font-weight: <span class="hint">var(--font-weight-regular)</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 7.3 — Exercise 7B: Typography.jsx     -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Typography React Component</h2>
+          <p style="font-size:0.5em; color:var(--text-muted); margin-bottom:0.3em">
+            Open: <code>src/components/Typography.jsx</code>
+          </p>
+
+          <pre style="font-size:0.42em"><code class="language-jsx" data-trim data-noescape>
+import '../design-system/css/typography.css'
+
+const tagMap = {
+  h1: 'h1', h2: 'h2', h3: 'h3',
+  body: 'p', caption: 'span'
+}
+
+function Typography({ variant = 'body', align = 'left', children }) {
+  const Tag = tagMap[variant]
+
+  return (
+    &lt;Tag
+      className={`typo typo--${variant}`}
+      style={{ textAlign: align }}
+    &gt;
+      {children}
+    &lt;/Tag&gt;
+  )
+}
+          </code></pre>
+
+          <p style="font-size:0.5em; color:var(--text-muted); margin-top:0.4em">
+            Props: <code>variant</code> ('h1'|'h2'|'h3'|'body'|'caption'),
+            <code>align</code>, <code>children</code>
+          </p>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 7.4 — Exercise 7C: Use in Dashboard   -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Add Typography to Dashboard</h2>
+          <p style="font-size:0.5em; color:var(--text-muted); margin-bottom:0.3em">
+            Open: <code>src/dashboard/Dashboard.jsx</code>
+          </p>
+
+          <pre style="font-size:0.42em"><code class="language-jsx" data-trim data-noescape>
+import { Typography } from '../components/Typography'
+
+// 1. Add a page title:
+&lt;Typography variant="h1"&gt;Dashboard&lt;/Typography&gt;
+
+// 2. In each Card, use Typography for title and content:
+&lt;Card
+  title={&lt;Typography variant="h2"&gt;Total Users&lt;/Typography&gt;}
+  footer={&lt;Button variant="primary"&gt;View&lt;/Button&gt;}
+&gt;
+  &lt;Typography variant="body"&gt;12,847&lt;/Typography&gt;
+  &lt;Typography variant="caption"&gt;
+    +12% from last month
+  &lt;/Typography&gt;
+&lt;/Card&gt;
+          </code></pre>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 7.5 — Checkpoint                      -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Checkpoint &mdash; Module 7</h2>
+
+          <p style="font-size:0.55em; color:var(--text-muted); margin-bottom:0.4em">
+            Your dashboard now has consistent typography from tokens.
+          </p>
+
+          <div class="checkpoint-flow">
+            <div class="cf-step">typography.css</div>
+            <div class="cf-arrow">&rarr;</div>
+            <div class="cf-step">Typography.jsx</div>
+            <div class="cf-arrow">&rarr;</div>
+            <div class="cf-step">Dashboard.jsx</div>
+          </div>
+
+          <div class="quote-block" style="margin-top:0.8em; font-size:0.55em; font-style:normal">
+            All text sizes come from tokens.<br/>
+            Change <code>--font-size-xl</code> &rarr; every H1 updates.
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 8.1 — How Theming Works [STRETCH]     -->
+        <!-- ============================================ -->
+        <section>
+          <h2>How Theming Works</h2>
+          <p style="font-size:0.5em; color:var(--text-muted); margin-bottom:0.3em">
+            CSS custom properties + data attributes
+          </p>
+
+          <div class="two-col">
+            <div>
+              <pre><code class="language-css" data-trim data-noescape>
+:root, [data-theme="light"] {
+  --color-bg:      #ffffff;
+  --color-surface: #f3f4f6;
+  --color-text:    #1f2937;
+}
+              </code></pre>
+            </div>
+            <div>
+              <pre><code class="language-css" data-trim data-noescape>
+[data-theme="dark"] {
+  --color-bg:      #111827;
+  --color-surface: #1f2937;
+  --color-text:    #f9fafb;
+}
+              </code></pre>
+            </div>
+          </div>
+
+          <pre style="max-width:580px; margin:0.3em auto; font-size:0.42em"><code class="language-html" data-trim data-noescape>
+&lt;html data-theme="light"&gt;  &lt;!-- light tokens --&gt;
+&lt;html data-theme="dark"&gt;   &lt;!-- dark tokens  --&gt;
+          </code></pre>
+
+          <div class="quote-block" style="margin-top:0.5em; font-size:0.55em; font-style:normal">
+            Components <strong>do not change</strong>. Only tokens change.
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 8.2 — Exercise 8A: Dark Tokens        -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Add Dark Mode Tokens</h2>
+          <p style="font-size:0.48em; color:var(--text-muted); margin-bottom:0.3em">
+            Open: <code>src/design-system/tokens/variables.css</code>
+          </p>
+
+          <div class="two-col" style="gap:1em">
+            <div>
+              <h3 style="margin-bottom:0.3em">Step 1: Wrap existing tokens</h3>
+              <pre><code class="language-css" data-trim data-noescape style="font-size:0.85em">
+:root, [data-theme="light"] {
+  /* all your existing tokens */
+  --color-primary: #2563eb;
+  --color-surface: #ffffff;
+  --color-text:    #1f2937;
+  /* ... etc ... */
+}
+              </code></pre>
+            </div>
+            <div>
+              <h3 style="margin-bottom:0.3em">Step 2: Add dark overrides</h3>
+              <pre><code class="language-css" data-trim data-noescape style="font-size:0.85em">
+[data-theme="dark"] {
+  --color-primary:       #3b82f6;
+  --color-primary-hover: #60a5fa;
+  --color-surface:       #1f2937;
+  --color-background:    #111827;
+  --color-text:          #f9fafb;
+  --color-text-muted:    #9ca3af;
+  --color-border:        #374151;
+  --color-on-primary:    #ffffff;
+}
+              </code></pre>
+              <p style="font-size:0.45em; color:var(--text-muted); margin-top:0.3em">
+                Spacing, radius, fonts stay the same &mdash; no need to repeat.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 8.3 — Exercise 8B: Wire Theme Toggle  -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Add Theme Toggle to Dashboard</h2>
+          <p style="font-size:0.5em; color:var(--text-muted); margin-bottom:0.3em">
+            Open: <code>src/dashboard/Dashboard.jsx</code>
+          </p>
+
+          <pre><code class="language-jsx" data-trim data-noescape>
+import { ThemeToggle } from '../components/ThemeToggle'
+
+// Place it in the dashboard header area, next to the title:
+&lt;div className="dashboard-header"&gt;
+  &lt;Typography variant="h1"&gt;Dashboard&lt;/Typography&gt;
+  &lt;ThemeToggle /&gt;
+&lt;/div&gt;
+          </code></pre>
+
+          <p style="font-size:0.55em; color:var(--text-muted); margin-top:0.6em">
+            The <code>ThemeToggle</code> component is pre-built. It sets the<br/>
+            <code>data-theme</code> attribute on <code>&lt;html&gt;</code> when clicked.
+          </p>
+          <p style="font-size:0.55em; color:var(--green); margin-top:0.3em; font-weight:600">
+            Click the toggle &mdash; your entire dashboard should switch themes.
+          </p>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 8.4 — Checkpoint                      -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Checkpoint &mdash; Module 8</h2>
+
+          <div class="theme-comparison">
+            <div class="theme-preview light">
+              <h4>LIGHT</h4>
+              <div class="tp-card">
+                <div class="tp-card-title">Total Users</div>
+                <div class="tp-card-value">12,847</div>
+                <div class="tp-btn">View</div>
+              </div>
+            </div>
+            <div class="theme-preview dark">
+              <h4>DARK</h4>
+              <div class="tp-card">
+                <div class="tp-card-title">Total Users</div>
+                <div class="tp-card-value">12,847</div>
+                <div class="tp-btn">View</div>
+              </div>
+            </div>
+          </div>
+
+          <p style="font-size:0.5em; color:var(--text-muted); margin:0.4em 0 0.3em">Key observation &mdash; these files did <strong>not</strong> change:</p>
+
+          <div class="no-change-list">
+            <div class="nc-item"><span class="nc-x">&#10003;</span> button.css</div>
+            <div class="nc-item"><span class="nc-x">&#10003;</span> card.css</div>
+            <div class="nc-item"><span class="nc-x">&#10003;</span> Button.jsx</div>
+            <div class="nc-item"><span class="nc-x">&#10003;</span> Card.jsx</div>
+          </div>
+
+          <p style="font-size:0.5em; color:var(--green); margin-top:0.4em; font-weight:600">
+            Only <code>variables.css</code> changed. This is the power of Design Tokens.
+          </p>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 9.1 — What We Built                   -->
+        <!-- ============================================ -->
+        <section>
+          <h2>What We Built Today</h2>
+
+          <div class="mermaid">
+            <pre>
+              %%{init: {'theme': 'dark', 'themeVariables': {'darkMode': true, 'primaryColor': '#1e3a5f', 'primaryTextColor': '#f1f5f9', 'primaryBorderColor': '#3b82f6', 'lineColor': '#60a5fa', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '24px'}}}%%
+              flowchart LR
+                A["Design
+                Tokens
+                ─────────
+                variables
+                light
+                dark"]
+                B["CSS
+                Components
+                ─────────
+                button
+                card
+                typography"]
+                C["React
+                Components
+                ─────────
+                Button
+                Card
+                Typography"]
+                D["Dashboard
+                App
+                ─────────
+                grid
+                cards
+                theming"]
+
+                A -- defines --> B -- wraps --> C -- builds --> D
+
+                style A fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+                style B fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+                style C fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+                style D fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+
+                linkStyle default stroke:#60a5fa,stroke-width:2px
+            </pre>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 9.2 — What We Simplified              -->
+        <!-- ============================================ -->
+        <section>
+          <h2>What We Simplified</h2>
+
+          <div class="simplify-table">
+            <div class="st-header">Workshop</div>
+            <div class="st-header">Production</div>
+
+            <div class="st-row">CSS vars in one file</div>
+            <div class="st-row">Figma &rarr; JSON &rarr; Style Dictionary</div>
+
+            <div class="st-row">Folders in one project</div>
+            <div class="st-row">Separate npm packages (monorepo)</div>
+
+            <div class="st-row">No build for CSS</div>
+            <div class="st-row">Build pipeline for each package</div>
+
+            <div class="st-row">No tests</div>
+            <div class="st-row">Unit tests + Visual regression</div>
+
+            <div class="st-row">No documentation</div>
+            <div class="st-row">Storybook + usage docs</div>
+
+            <div class="st-row">No versioning</div>
+            <div class="st-row">Semantic versioning + changelogs</div>
+
+            <div class="st-row">No CI/CD</div>
+            <div class="st-row">Automated publishing pipeline</div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 9.3 — Tools & Resources               -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Tools &amp; Resources</h2>
+
+          <div class="resource-list">
+            <h4>Token Management</h4>
+            <div class="rl-item">
+              <span class="rl-name">Style Dictionary</span>
+              <span class="rl-url">amzn.github.io/style-dictionary</span>
+            </div>
+            <div class="rl-item">
+              <span class="rl-name">Figma Tokens Plugin</span>
+              <span class="rl-url">tokens.studio</span>
+            </div>
+
+            <h4>Component Development</h4>
+            <div class="rl-item">
+              <span class="rl-name">Storybook</span>
+              <span class="rl-url">storybook.js.org</span>
+            </div>
+            <div class="rl-item">
+              <span class="rl-name">Chromatic</span>
+              <span class="rl-url">chromatic.com</span>
+            </div>
+
+            <h4>Real Design Systems (open source)</h4>
+            <div class="rl-item">
+              <span class="rl-name">Material UI (Google)</span>
+              <span class="rl-url">mui.com</span>
+            </div>
+            <div class="rl-item">
+              <span class="rl-name">Polaris (Shopify)</span>
+              <span class="rl-url">polaris.shopify.com</span>
+            </div>
+            <div class="rl-item">
+              <span class="rl-name">Primer (GitHub)</span>
+              <span class="rl-url">primer.style</span>
+            </div>
+            <div class="rl-item">
+              <span class="rl-name">Carbon (IBM)</span>
+              <span class="rl-url">carbondesignsystem.com</span>
+            </div>
+            <div class="rl-item">
+              <span class="rl-name">Lightning (Salesforce)</span>
+              <span class="rl-url">lightningdesignsystem.com</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 9.4 — Key Takeaways                   -->
+        <!-- ============================================ -->
+        <section>
+          <h2>Key Takeaways</h2>
+
+          <div class="takeaways">
+            <div class="takeaway-card">
+              <div class="tk-number">1</div>
+              <h4>Separate Concerns</h4>
+              <p>Tokens &rarr; CSS &rarr; Components &rarr; Apps.<br/>Each layer has a single responsibility.</p>
+            </div>
+            <div class="takeaway-card">
+              <div class="tk-number">2</div>
+              <h4>CSS is the Contract</h4>
+              <p>Write styles once in CSS. Framework components are thin wrappers. One CSS, many frameworks.</p>
+            </div>
+            <div class="takeaway-card">
+              <div class="tk-number">3</div>
+              <h4>Tokens Give You Control</h4>
+              <p>Centralize design decisions. Change once, update everywhere. Enable theming with zero component changes.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- SLIDE 9.5 — Q&A                             -->
+        <!-- ============================================ -->
+        <section class="qa-slide">
+          <h1>Questions?</h1>
+          <p style="font-size: 0.6em; color: var(--text-muted); margin-top: 1.5em">
+            Thank you for participating!
+          </p>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-mermaid-plugin@11.12.3/plugin/mermaid/mermaid.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: true,
+        transition: 'slide',
+        backgroundTransition: 'fade',
+        center: true,
+        mermaid: {
+          theme: 'dark',
+          themeVariables: {
+            darkMode: true,
+            primaryColor: '#1e293b',
+            primaryTextColor: '#f1f5f9',
+            primaryBorderColor: '#3b82f6',
+            lineColor: '#3b82f6',
+            secondaryColor: '#334155',
+            tertiaryColor: '#1e293b',
+            fontFamily: 'Inter, system-ui, sans-serif',
+            fontSize: '14px',
+          },
+        },
+        plugins: [RevealHighlight, RevealMermaid],
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+/* ==============================================
+   TYPOGRAPHY CSS — Component Styles  [STRETCH]
+   EXERCISE 7A
+   ============================================== */
+
+/* TODO (Module 7 — Exercise 7A) [STRETCH]:
+   Create a typography scale.
+   Tokens are already defined — use var(--token-name) directly!
+
+   Selectors to implement:
+
+   .typo                 - Base styles (font-family, line-height)
+   .typo--h1             - Largest heading (font-size, font-weight)
+   .typo--h2             - Section heading (font-size, font-weight)
+   .typo--h3             - Sub-section heading (font-size, font-weight)
+   .typo--body           - Default body text (font-size, font-weight)
+   .typo--caption        - Small label/caption (font-size, font-weight)
+*/

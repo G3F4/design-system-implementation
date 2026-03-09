@@ -1,0 +1,23 @@
+/* ==============================================
+   CARD CSS — Component Styles
+   EXERCISE 4A
+   ============================================== */
+
+/* TODO (Module 4 — Exercise 4A):
+   Create styles for the Card component.
+   Use the spec slide as a visual reference.
+
+   Selectors to implement:
+
+   .card                 - Base styles (padding, border-radius, background-color)
+   .card--elevated       - Shadow variant (box-shadow)
+   .card--outlined       - Border variant (border)
+   .card__title          - Title area (font-size, font-weight, margin-bottom)
+   .card__content        - Content area (font-size, color, margin-bottom)
+   .card__footer         - Footer area (display, justify-content, gap)
+*/
+
+/* TODO (Module 6 — Exercise 6C):
+   Refactor hardcoded values to use design tokens:
+   e.g. padding: 24px  -->  padding: var(--spacing-lg)
+*/

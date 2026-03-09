@@ -1,0 +1,26 @@
+/* ==============================================
+   DESIGN TOKENS — CSS Custom Properties
+   EXERCISE 6A
+   ============================================== */
+
+/* TODO (Module 6 — Exercise 6A):
+   Define your design tokens inside :root { }
+
+   Categories to define:
+   - COLORS:     --color-primary, --color-primary-hover, --color-secondary,
+                 --color-surface, --color-background, --color-text,
+                 --color-text-muted, --color-border, --color-on-primary
+   - SPACING:    --spacing-xs, --spacing-sm, --spacing-md, --spacing-lg, --spacing-xl
+   - RADIUS:     --radius-sm, --radius-md
+   - TYPOGRAPHY: --font-family, --font-size-xs, --font-size-sm, --font-size-md,
+                 --font-size-lg, --font-size-xl, --font-weight-regular,
+                 --font-weight-medium, --font-weight-bold
+   - SHADOWS:    --shadow-sm, --shadow-md
+*/
+
+/* TODO (Module 8 — Exercise 8A) [STRETCH]:
+   Restructure tokens for light/dark theming:
+   1. Wrap existing tokens in :root, [data-theme="light"] { ... }
+   2. Add a [data-theme="dark"] { ... } block with dark color overrides
+      (spacing, radius, fonts stay the same — no need to repeat)
+*/

@@ -1,0 +1,23 @@
+{
+  "name": "ds-workshop",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "solution:button": "SOLUTION=1-button vite",
+    "solution:card": "SOLUTION=2-card vite",
+    "solution:tokens": "SOLUTION=3-tokens vite",
+    "solution:typography": "SOLUTION=4-typography vite",
+    "solution:dark-mode": "SOLUTION=5-dark-mode vite"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.2.0"
+  }
+}

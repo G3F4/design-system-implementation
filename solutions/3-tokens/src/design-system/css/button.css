@@ -1,0 +1,56 @@
+/* ==============================================
+   BUTTON CSS — Component Styles
+   EXERCISES 3A + 6B — SOLUTION (tokenized)
+   ============================================== */
+
+.btn {
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn--primary {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  border: 1px solid var(--color-primary);
+}
+
+.btn--secondary {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+
+.btn--tertiary {
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  border: none;
+}
+
+.btn--sm {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: var(--font-size-xs);
+}
+
+.btn--md {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-sm);
+}
+
+.btn--lg {
+  padding: 12px var(--spacing-lg);
+  font-size: var(--font-size-md);
+}
+
+.btn:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.btn--secondary:hover {
+  background-color: rgba(37, 99, 235, 0.1);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

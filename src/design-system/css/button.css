@@ -1,0 +1,27 @@
+/* ==============================================
+   BUTTON CSS — Component Styles
+   EXERCISE 3A
+   ============================================== */
+
+/* TODO (Module 3 — Exercise 3A):
+   Create styles for the Button component.
+   Use the spec slide as a visual reference.
+   Choose your own colors, spacing, and sizes!
+
+   Selectors to implement:
+
+   .btn                  - Base styles (border-radius, cursor, transition)
+   .btn--primary         - Filled + bordered variant (background-color, color, border)
+   .btn--secondary       - Bordered variant, no fill (background-color, color, border)
+   .btn--tertiary        - Filled variant, no border (background-color, color, border)
+   .btn--sm              - Small size (padding, font-size)
+   .btn--md              - Medium size (padding, font-size) — default
+   .btn--lg              - Large size (padding, font-size)
+   .btn:hover            - Hover feedback (background-color)
+   .btn:disabled         - Disabled state (opacity, cursor)
+*/
+
+/* TODO (Module 6 — Exercise 6B):
+   Refactor hardcoded values to use design tokens:
+   e.g. background: #2563eb  -->  background: var(--color-primary)
+*/
