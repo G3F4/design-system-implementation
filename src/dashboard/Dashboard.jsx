@@ -6,16 +6,16 @@
 
 // -------------------------------------------------
 // TODO (Module 3 — Exercise 3C):
-//   Import Button from '../components/Button'
+//   import Button from '../components/Button'
 //
 // TODO (Module 4 — Exercise 4C):
-//   Import Card from '../components/Card'
+//   import Card from '../components/Card'
 //
 // TODO (Module 7 — Exercise 7C) [STRETCH]:
-//   Import Typography from '../components/Typography'
+//   import Typography from '../components/Typography'
 //
 // TODO (Module 8 — Exercise 8B) [STRETCH]:
-//   Import ThemeToggle from '../components/ThemeToggle'
+//   import ThemeToggle from '../components/ThemeToggle'
 // -------------------------------------------------
 
 export function Dashboard() {
