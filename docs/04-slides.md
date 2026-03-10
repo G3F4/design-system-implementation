@@ -344,7 +344,7 @@
                     PRIMARY               SECONDARY              TERTIARY
 
                     border + bg           border only            bg only
-                    white text            black text             white text
+                    white text            primary text           white text
 
   DEFAULT           ┌───────────┐         ┌───────────┐          ▁▁▁▁▁▁▁▁▁▁▁
                     │███████████│         │           │         ░░░░░░░░░░░░░
@@ -853,7 +853,6 @@
   --color-surface:        #ffffff
   --color-background:     #f3f4f6
   --color-text:           #1f2937
-  --color-text-muted:     #6b7280
   --color-border:         #e5e7eb
   --color-on-primary:     #ffffff
 
@@ -931,8 +930,7 @@
   background: #ffffff         -->     background: var(--color-surface)
   box-shadow: 0 1px 3px...    -->     box-shadow: var(--shadow-sm)
   border: 1px solid #e5e7eb   -->     border: 1px solid var(--color-border)
-  font-size: 18px             -->     font-size: var(--font-size-lg)
-  color: #6b7280              -->     color: var(--color-text-muted)
+  color: #1f2937              -->     color: var(--color-text)
 ```
 
 ### Slide 6.4 — Exercise 6D: Test Token Changes
@@ -1147,7 +1145,6 @@
      --color-surface:        #1f2937
      --color-background:     #111827
      --color-text:           #f9fafb
-     --color-text-muted:     #9ca3af
      --color-border:         #374151
      --color-on-primary:     #ffffff
 
@@ -1198,7 +1195,8 @@
   - Button.jsx   — did NOT change
   - Card.jsx     — did NOT change
 
-  Only variables.css changed. This is the power of Design Tokens.
+  Component CSS and React wrappers are theme-agnostic.
+  Only token values changed. This is the power of Design Tokens.
 ```
 
 ---
