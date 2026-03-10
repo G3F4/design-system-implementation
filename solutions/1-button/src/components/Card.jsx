@@ -17,10 +17,10 @@ import '../design-system/css/card.css'
 export function Card({ variant = 'elevated', title, children, footer }) {
   // TODO (Module 4 — Exercise 4B):
   //   Return the following structure:
-  //   <div class="card card--{variant}">
-  //     <div class="card__title">  {title}    </div>
-  //     <div class="card__content"> {children} </div>
-  //     <div class="card__footer">  {footer}   </div>
+  //   <div className="card card--{variant}">
+  //     <div className="card__title">  {title}    </div>
+  //     <div className="card__content"> {children} </div>
+  //     <div className="card__footer">  {footer}   </div>
   //   </div>
 
   return null

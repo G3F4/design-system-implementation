@@ -19,8 +19,8 @@ export function Typography({ variant = 'body', align, children }) {
   //      h1/h2/h3  -->  <h1>, <h2>, <h3>
   //      body      -->  <p>
   //      caption   -->  <span>
-  //   2. Apply className: 'typo typo--{variant}'
-  //      If align is provided, also add 'typo--{align}'
+  //   2. Apply className: `typo typo--${variant}`
+  //      If align is provided, also add `typo--${align}`
   //   3. Render children inside
 
   return null
