@@ -8,7 +8,7 @@ import { Card } from '../components/Card'
 import { Typography } from '../components/Typography'
 
 // TODO (Module 8 — Exercise 8B) [STRETCH]:
-//   import ThemeToggle from '../components/ThemeToggle'
+//   import { ThemeToggle } from '../components/ThemeToggle'
 
 export function Dashboard() {
   return (

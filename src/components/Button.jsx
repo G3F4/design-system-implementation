@@ -18,7 +18,7 @@ import '../design-system/css/button.css'
 export function Button({ variant = 'primary', size = 'md', children, onClick, disabled }) {
   // TODO (Module 3 — Exercise 3B):
   //   Return a <button> element with:
-  //   - className:  'btn btn--{variant} btn--{size}'
+  //   - className:  'btn btn--${variant} btn--${size}'
   //   - onClick:    passed through
   //   - disabled:   passed through
   //   - children:   rendered inside
