@@ -15,7 +15,7 @@
     />
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css"
       id="theme"
     />
     <link
@@ -25,15 +25,15 @@
 
     <style>
       :root {
-        --accent: #3b82f6;
-        --accent-light: #60a5fa;
-        --surface: #1e293b;
-        --surface-light: #334155;
-        --text: #f1f5f9;
-        --text-muted: #94a3b8;
-        --green: #22c55e;
-        --red: #ef4444;
-        --orange: #f59e0b;
+        --accent: #1767e8;
+        --accent-light: #144bb9;
+        --surface: #f4f4f4;
+        --surface-light: #fefefe;
+        --text: #1d1d1d;
+        --text-muted: #707070;
+        --green: #06753f;
+        --red: #bb0020;
+        --orange: #c2410c;
       }
 
       .reveal {
@@ -121,7 +121,7 @@
         gap: 0.8em;
         padding: 0.25em 0;
         font-size: 0.6em !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        border-bottom: 1px solid rgba(29, 29, 29, 0.06);
       }
 
       .agenda-list li::before {
@@ -205,14 +205,15 @@
       .reveal pre code {
         padding: 1em 1.2em;
         border-radius: 8px;
-        background: var(--surface);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: #1e293b;
+        border: 1px solid #334155;
         max-height: 500px;
+        color: #e2e8f0;
       }
 
       /* Inline code */
       .reveal code:not([class]) {
-        background: var(--surface);
+        background: #e8e8e8;
         padding: 0.15em 0.4em;
         border-radius: 4px;
         font-size: 0.9em;
@@ -230,7 +231,7 @@
 
       .pipeline-step {
         background: var(--surface);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(29, 29, 29, 0.1);
         border-radius: 8px;
         padding: 0.8em 1em;
         text-align: center;
@@ -301,7 +302,7 @@
         background: var(--surface);
         border-radius: 8px;
         padding: 1em;
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(29, 29, 29, 0.08);
       }
 
       .comparison-card h4 {
@@ -359,7 +360,7 @@
         background: var(--surface);
         border-radius: 8px;
         padding: 1em;
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(29, 29, 29, 0.08);
         text-align: center;
       }
 
@@ -420,7 +421,7 @@
 
       .scope-list li .stretch-badge {
         display: inline-block;
-        background: rgba(245, 158, 11, 0.15);
+        background: rgba(194, 65, 12, 0.1);
         color: var(--orange);
         font-size: 0.7em;
         padding: 0.1em 0.5em;
@@ -440,7 +441,7 @@
 
       /* Title slide specific */
       .title-slide h1 {
-        background: linear-gradient(135deg, var(--accent-light), #a78bfa);
+        background: linear-gradient(135deg, #1767e8, #bc1cf2);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -505,7 +506,7 @@
       /* Wireframe mockup */
       .wireframe {
         background: var(--surface);
-        border: 1px solid rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(29, 29, 29, 0.15);
         border-radius: 8px;
         padding: 0.6em 1em;
         font-family: 'Fira Code', 'Cascadia Code', monospace;
@@ -531,7 +532,7 @@
       /* Stretch label */
       .stretch-label {
         display: inline-block;
-        background: rgba(245, 158, 11, 0.15);
+        background: rgba(194, 65, 12, 0.1);
         color: var(--orange);
         font-size: 0.45em;
         padding: 0.2em 0.8em;
@@ -582,16 +583,16 @@
         transition: none;
       }
 
-      .btn-demo.primary { background: #2563eb; color: #fff; border: 1px solid #2563eb; }
-      .btn-demo.primary.hover { background: #1d4ed8; border-color: #1d4ed8; }
-      .btn-demo.primary.disabled { background: #2563eb; border-color: #2563eb; opacity: 0.4; }
+      .btn-demo.primary { background: #1767e8; color: #fefefe; border: 1px solid #1767e8; }
+      .btn-demo.primary.hover { background: #144bb9; border-color: #144bb9; }
+      .btn-demo.primary.disabled { background: #1767e8; border-color: #1767e8; opacity: 0.4; }
 
-      .btn-demo.secondary { background: transparent; color: #e2e8f0; border: 1px solid #64748b; }
-      .btn-demo.secondary.hover { background: rgba(100,116,139,0.15); }
+      .btn-demo.secondary { background: transparent; color: #1d1d1d; border: 1px solid #8e8e8e; }
+      .btn-demo.secondary.hover { background: rgba(142,142,142,0.1); }
       .btn-demo.secondary.disabled { opacity: 0.4; border-style: dashed; }
 
-      .btn-demo.tertiary { background: #334155; color: #e2e8f0; border: 1px solid transparent; }
-      .btn-demo.tertiary.hover { background: #475569; }
+      .btn-demo.tertiary { background: #f4f4f4; color: #1d1d1d; border: 1px solid transparent; }
+      .btn-demo.tertiary.hover { background: #e1e1e1; }
       .btn-demo.tertiary.disabled { opacity: 0.4; }
 
       /* Button size demo */
@@ -635,12 +636,12 @@
 
       .card-demo.elevated {
         background: var(--surface-light);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       }
 
       .card-demo.outlined {
         background: transparent;
-        border: 1px solid rgba(255,255,255,0.2);
+        border: 1px solid rgba(29,29,29,0.2);
       }
 
       .card-demo .cd-title {
@@ -664,7 +665,7 @@
       /* Card anatomy */
       .card-anatomy {
         background: var(--surface);
-        border: 1px solid rgba(255,255,255,0.1);
+        border: 1px solid rgba(29,29,29,0.1);
         border-radius: 8px;
         max-width: 350px;
         margin: 0.6em auto;
@@ -674,7 +675,7 @@
 
       .card-anatomy > div {
         padding: 0.6em 1em;
-        border-bottom: 1px dashed rgba(255,255,255,0.1);
+        border-bottom: 1px dashed rgba(29,29,29,0.1);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -767,7 +768,7 @@
         background: var(--surface);
         border-radius: 8px;
         padding: 0.8em;
-        border: 1px solid rgba(255,255,255,0.08);
+        border: 1px solid rgba(29,29,29,0.08);
       }
 
       .token-col h4 {
@@ -825,7 +826,7 @@
         font-size: 1.1em;
         letter-spacing: 0.05em;
         padding-bottom: 0.3em;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
+        border-bottom: 1px solid rgba(29,29,29,0.1);
       }
 
       .refactor-table .rt-before {
@@ -899,7 +900,7 @@
 
       .checkpoint-flow .cf-step {
         background: var(--surface);
-        border: 1px solid rgba(255,255,255,0.1);
+        border: 1px solid rgba(29,29,29,0.1);
         border-radius: 6px;
         padding: 0.4em 0.8em;
         text-align: center;
@@ -926,7 +927,7 @@
         align-items: baseline;
         gap: 1em;
         padding: 0.15em 0;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
+        border-bottom: 1px solid rgba(29,29,29,0.05);
       }
 
       .type-scale .ts-label {
@@ -1047,13 +1048,13 @@
         text-transform: uppercase;
         letter-spacing: 0.05em;
         padding-bottom: 0.4em;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
+        border-bottom: 1px solid rgba(29,29,29,0.1);
         margin-bottom: 0.4em;
       }
 
       .simplify-table .st-row {
         padding: 0.2em 0;
-        border-bottom: 1px solid rgba(255,255,255,0.04);
+        border-bottom: 1px solid rgba(29,29,29,0.04);
         color: var(--text-muted);
       }
 
@@ -1105,7 +1106,7 @@
         background: var(--surface);
         border-radius: 8px;
         padding: 0.8em;
-        border: 1px solid rgba(255,255,255,0.08);
+        border: 1px solid rgba(29,29,29,0.08);
         text-align: left;
       }
 
@@ -1150,7 +1151,7 @@
 
       .no-change-list .nc-item {
         background: var(--surface);
-        border: 1px solid rgba(255,255,255,0.08);
+        border: 1px solid rgba(29,29,29,0.08);
         border-radius: 6px;
         padding: 0.3em 0.8em;
         font-family: 'Fira Code', 'Cascadia Code', monospace;
@@ -1166,7 +1167,7 @@
       /* Q&A slide */
       .qa-slide h1 {
         font-size: 3em;
-        background: linear-gradient(135deg, var(--accent-light), #a78bfa);
+        background: linear-gradient(135deg, #1767e8, #bc1cf2);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -1324,17 +1325,17 @@ npm run dev
             <img src="ds-mui.png"
                  alt="Material UI"
                  style="position:absolute; left:0; top:30px; width:370px; border-radius:8px;
-                        box-shadow:0 8px 30px rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.08);
+                        box-shadow:0 4px 20px rgba(0,0,0,0.15); border:1px solid rgba(29,29,29,0.12);
                         transform:rotate(-5deg); z-index:1;" />
             <img src="ds-primer.png"
                  alt="GitHub Primer"
                  style="position:absolute; left:50%; top:0; width:380px; border-radius:8px;
-                        box-shadow:0 12px 40px rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.1);
+                        box-shadow:0 6px 24px rgba(0,0,0,0.18); border:1px solid rgba(29,29,29,0.12);
                         transform:translateX(-50%); z-index:3;" />
             <img src="ds-antd.png"
                  alt="Ant Design"
                  style="position:absolute; right:0; top:30px; width:370px; border-radius:8px;
-                        box-shadow:0 8px 30px rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.08);
+                        box-shadow:0 4px 20px rgba(0,0,0,0.15); border:1px solid rgba(29,29,29,0.12);
                         transform:rotate(5deg); z-index:2;" />
           </div>
 
@@ -1387,7 +1388,7 @@ npm run dev
 
           <div class="mermaid">
             <pre>
-              %%{init: {'theme': 'dark', 'themeVariables': {'darkMode': true, 'primaryColor': '#1e3a5f', 'primaryTextColor': '#f1f5f9', 'primaryBorderColor': '#3b82f6', 'lineColor': '#60a5fa', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '24px'}}}%%
+              %%{init: {'theme': 'default', 'themeVariables': {'darkMode': false, 'primaryColor': '#dff0ff', 'primaryTextColor': '#1d1d1d', 'primaryBorderColor': '#1767e8', 'lineColor': '#1767e8', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '24px'}}}%%
               flowchart LR
                 A["Design
                 System
@@ -1417,12 +1418,12 @@ npm run dev
 
                 A -- defines --> B -- wraps --> C -- builds --> D
 
-                style A fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
-                style B fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
-                style C fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
-                style D fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+                style A fill:#dff0ff,stroke:#1767e8,stroke-width:2px,color:#1d1d1d
+                style B fill:#dff0ff,stroke:#1767e8,stroke-width:2px,color:#1d1d1d
+                style C fill:#dff0ff,stroke:#1767e8,stroke-width:2px,color:#1d1d1d
+                style D fill:#dff0ff,stroke:#1767e8,stroke-width:2px,color:#1d1d1d
 
-                linkStyle default stroke:#60a5fa,stroke-width:2px
+                linkStyle default stroke:#1767e8,stroke-width:2px
             </pre>
           </div>
 
@@ -1445,7 +1446,7 @@ npm run dev
 
           <div class="mermaid">
             <pre>
-              %%{init: {'theme': 'dark', 'themeVariables': {'darkMode': true, 'primaryColor': '#1e3a5f', 'primaryTextColor': '#f1f5f9', 'primaryBorderColor': '#3b82f6', 'lineColor': '#60a5fa', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '14px'}}}%%
+              %%{init: {'theme': 'default', 'themeVariables': {'darkMode': false, 'primaryColor': '#dff0ff', 'primaryTextColor': '#1d1d1d', 'primaryBorderColor': '#1767e8', 'lineColor': '#1767e8', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '14px'}}}%%
               flowchart TD
                 DS["Design System
                 (single source of truth)"]
@@ -1466,15 +1467,15 @@ npm run dev
                 Svelte --> A5["App 5"]
                 Svelte --> A6["App 6"]
 
-                style DS fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
-                style CSS fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
-                style IOS fill:#334155,stroke:#475569,stroke-width:1px,color:#94a3b8
-                style AND fill:#334155,stroke:#475569,stroke-width:1px,color:#94a3b8
-                style React fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
-                style Vue fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
-                style Svelte fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+                style DS fill:#dff0ff,stroke:#1767e8,stroke-width:2px,color:#1d1d1d
+                style CSS fill:#dff0ff,stroke:#1767e8,stroke-width:2px,color:#1d1d1d
+                style IOS fill:#f4f4f4,stroke:#8e8e8e,stroke-width:1px,color:#707070
+                style AND fill:#f4f4f4,stroke:#8e8e8e,stroke-width:1px,color:#707070
+                style React fill:#dff0ff,stroke:#1767e8,stroke-width:2px,color:#1d1d1d
+                style Vue fill:#dff0ff,stroke:#1767e8,stroke-width:2px,color:#1d1d1d
+                style Svelte fill:#dff0ff,stroke:#1767e8,stroke-width:2px,color:#1d1d1d
 
-                linkStyle default stroke:#60a5fa,stroke-width:2px
+                linkStyle default stroke:#1767e8,stroke-width:2px
             </pre>
           </div>
 
@@ -1698,7 +1699,7 @@ npm run dev
 
           <div class="mermaid">
             <pre>
-              %%{init: {'theme': 'dark', 'themeVariables': {'darkMode': true, 'primaryColor': '#1e3a5f', 'primaryTextColor': '#f1f5f9', 'primaryBorderColor': '#3b82f6', 'lineColor': '#60a5fa', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '24px'}}}%%
+              %%{init: {'theme': 'default', 'themeVariables': {'darkMode': false, 'primaryColor': '#dff0ff', 'primaryTextColor': '#1d1d1d', 'primaryBorderColor': '#1767e8', 'lineColor': '#1767e8', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '24px'}}}%%
               flowchart LR
                 A["tokens/
                 ─────────
@@ -1719,12 +1720,12 @@ npm run dev
 
                 A -- defines --> B -- wraps --> C -- builds --> D
 
-                style A fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
-                style B fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
-                style C fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
-                style D fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+                style A fill:#dff0ff,stroke:#1767e8,stroke-width:2px,color:#1d1d1d
+                style B fill:#dff0ff,stroke:#1767e8,stroke-width:2px,color:#1d1d1d
+                style C fill:#dff0ff,stroke:#1767e8,stroke-width:2px,color:#1d1d1d
+                style D fill:#dff0ff,stroke:#1767e8,stroke-width:2px,color:#1d1d1d
 
-                linkStyle default stroke:#60a5fa,stroke-width:2px
+                linkStyle default stroke:#1767e8,stroke-width:2px
             </pre>
           </div>
 
@@ -2332,7 +2333,7 @@ border: 1px solid #2563eb;    /* &lt;-- here */
 
           <div class="mermaid">
             <pre>
-              %%{init: {'theme': 'dark', 'themeVariables': {'darkMode': true, 'primaryColor': '#1e3a5f', 'primaryTextColor': '#f1f5f9', 'primaryBorderColor': '#3b82f6', 'lineColor': '#60a5fa', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '24px'}}}%%
+              %%{init: {'theme': 'default', 'themeVariables': {'darkMode': false, 'primaryColor': '#dff0ff', 'primaryTextColor': '#1d1d1d', 'primaryBorderColor': '#1767e8', 'lineColor': '#1767e8', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '24px'}}}%%
               flowchart LR
                 A["Figma"]
                 B["JSON
@@ -2346,12 +2347,12 @@ border: 1px solid #2563eb;    /* &lt;-- here */
 
                 A --> B --> C --> D
 
-                style A fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
-                style B fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
-                style C fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
-                style D fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+                style A fill:#dff0ff,stroke:#1767e8,stroke-width:2px,color:#1d1d1d
+                style B fill:#dff0ff,stroke:#1767e8,stroke-width:2px,color:#1d1d1d
+                style C fill:#dff0ff,stroke:#1767e8,stroke-width:2px,color:#1d1d1d
+                style D fill:#dff0ff,stroke:#1767e8,stroke-width:2px,color:#1d1d1d
 
-                linkStyle default stroke:#60a5fa,stroke-width:2px
+                linkStyle default stroke:#1767e8,stroke-width:2px
             </pre>
           </div>
 
@@ -2898,7 +2899,7 @@ import { ThemeToggle } from '../components/ThemeToggle'
 
           <div class="mermaid">
             <pre>
-              %%{init: {'theme': 'dark', 'themeVariables': {'darkMode': true, 'primaryColor': '#1e3a5f', 'primaryTextColor': '#f1f5f9', 'primaryBorderColor': '#3b82f6', 'lineColor': '#60a5fa', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '24px'}}}%%
+              %%{init: {'theme': 'default', 'themeVariables': {'darkMode': false, 'primaryColor': '#dff0ff', 'primaryTextColor': '#1d1d1d', 'primaryBorderColor': '#1767e8', 'lineColor': '#1767e8', 'fontFamily': 'Inter, system-ui, sans-serif', 'fontSize': '24px'}}}%%
               flowchart LR
                 A["Design
                 Tokens
@@ -2927,12 +2928,12 @@ import { ThemeToggle } from '../components/ThemeToggle'
 
                 A -- defines --> B -- wraps --> C -- builds --> D
 
-                style A fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
-                style B fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
-                style C fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
-                style D fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#f1f5f9
+                style A fill:#dff0ff,stroke:#1767e8,stroke-width:2px,color:#1d1d1d
+                style B fill:#dff0ff,stroke:#1767e8,stroke-width:2px,color:#1d1d1d
+                style C fill:#dff0ff,stroke:#1767e8,stroke-width:2px,color:#1d1d1d
+                style D fill:#dff0ff,stroke:#1767e8,stroke-width:2px,color:#1d1d1d
 
-                linkStyle default stroke:#60a5fa,stroke-width:2px
+                linkStyle default stroke:#1767e8,stroke-width:2px
             </pre>
           </div>
         </section>
@@ -3069,15 +3070,15 @@ import { ThemeToggle } from '../components/ThemeToggle'
         backgroundTransition: 'fade',
         center: true,
         mermaid: {
-          theme: 'dark',
+          theme: 'default',
           themeVariables: {
-            darkMode: true,
-            primaryColor: '#1e293b',
-            primaryTextColor: '#f1f5f9',
-            primaryBorderColor: '#3b82f6',
-            lineColor: '#3b82f6',
-            secondaryColor: '#334155',
-            tertiaryColor: '#1e293b',
+            darkMode: false,
+            primaryColor: '#dff0ff',
+            primaryTextColor: '#1d1d1d',
+            primaryBorderColor: '#1767e8',
+            lineColor: '#1767e8',
+            secondaryColor: '#f4f4f4',
+            tertiaryColor: '#fefefe',
             fontFamily: 'Inter, system-ui, sans-serif',
             fontSize: '14px',
           },
